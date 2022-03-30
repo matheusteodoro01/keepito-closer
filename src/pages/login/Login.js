@@ -20,7 +20,7 @@ import logo from "./logo.svg";
 import google from "../../images/google.svg";
 
 // context
-import { useUserDispatch, loginLoja, loginEntregador,setEmail } from "../../context/UserContext";
+import { useUserDispatch, loginAluno, loginProfessor, setEmail } from "../../context/UserContext";
 
 function Login(props) {
   var classes = useStyles();
@@ -51,8 +51,8 @@ function Login(props) {
             textColor="primary"
             centered
           >
-            <Tab label="Loja" classes={{ root: classes.tab }} />
-            <Tab label="Entregador" classes={{ root: classes.tab }} />
+            <Tab label="Aluno" classes={{ root: classes.tab }} />
+            <Tab label="Professor" classes={{ root: classes.tab }} />
           </Tabs>
           {activeTabId === 0 && (
             <React.Fragment>
@@ -66,7 +66,7 @@ function Login(props) {
                 </Typography>
               </Fade>
               <Typography variant="h2" className={classes.subGreeting}>
-                Login Loja
+                Login Aluno
               </Typography>
               <TextField
                 id="email"
@@ -107,7 +107,7 @@ function Login(props) {
                       loginValue.length === 0 || passwordValue.length === 0
                     }
                     onClick={() =>
-                      loginLoja(
+                      loginAluno(
                         userDispatch,
                         loginValue,
                         passwordValue,
@@ -145,10 +145,8 @@ function Login(props) {
                 </Typography>
               </Fade>
               <Typography variant="h2" className={classes.subGreeting}>
-                Login Entregador
+                Login Professor
               </Typography>
-
-            
               <TextField
                 id="email"
                 InputProps={{
@@ -179,7 +177,7 @@ function Login(props) {
                 type="password"
                 fullWidth
               />
-               <div className={classes.formButtons}>
+              <div className={classes.formButtons}>
                 {isLoading ? (
                   <CircularProgress size={26} className={classes.loginLoader} />
                 ) : (
@@ -188,7 +186,7 @@ function Login(props) {
                       loginValue.length === 0 || passwordValue.length === 0
                     }
                     onClick={() =>
-                      loginEntregador(
+                      loginProfessor(
                         userDispatch,
                         loginValue,
                         passwordValue,
@@ -212,13 +210,13 @@ function Login(props) {
                   Forget Password
                 </Button>
               </div>
-            
-           
+
+
             </React.Fragment>
           )}
         </div>
         <Typography color="primary" className={classes.copyright}>
-          © 2014-{new Date().getFullYear()} <a style={{ textDecoration: 'none', color: 'inherit' }} >Vrum</a>, LLC. All rights reserved.
+          © 2014-{new Date().getFullYear()} <a style={{ textDecoration: 'none', color: 'inherit' }} >Keepito</a>, LLC. All rights reserved.
         </Typography>
       </div>
     </Grid>

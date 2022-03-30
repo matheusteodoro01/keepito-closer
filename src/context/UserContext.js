@@ -60,9 +60,10 @@ function useUserDispatch() {
 
 // ###########################################################
 
-async function loginLoja(dispatch, login, password, history, setIsLoading, setError) {
+async function loginAluno(dispatch, login, password, history, setIsLoading, setError) {
   setError(false);
   setIsLoading(true);
+  dispatch({ type: actions.loginSucces, payload: login })
 
   const data = {
     email: login,
@@ -70,7 +71,7 @@ async function loginLoja(dispatch, login, password, history, setIsLoading, setEr
   }
 
 
-  await api.post('/login/loja', data)
+  await api.post('/login', data)
     .then(response => {
       //     await api.get('usuario/?')
       setTimeout(() => {
@@ -93,7 +94,7 @@ async function loginLoja(dispatch, login, password, history, setIsLoading, setEr
 
 }
 
-async function loginEntregador(dispatch, login, password, history, setIsLoading, setError) {
+async function loginProfessor(dispatch, login, password, history, setIsLoading, setError) {
   setError(false);
   setIsLoading(true);
   const data = {
@@ -101,7 +102,7 @@ async function loginEntregador(dispatch, login, password, history, setIsLoading,
     senha: password
   }
 
-  await api.post('/login/entregador', data)
+  await api.post('/login', data)
     .then(response => {
       console.log(response.data.token)
       setTimeout(() => {
@@ -131,4 +132,4 @@ function signOut(dispatch, history) {
   history.push("/login");
 }
 
-export { UserProvider, useUserState, useUserDispatch, loginLoja, loginEntregador, signOut };
+export { UserProvider, useUserState, useUserDispatch, loginAluno, loginProfessor, signOut };
