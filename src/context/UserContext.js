@@ -63,23 +63,23 @@ function useUserDispatch() {
 async function loginAluno(dispatch, login, password, history, setIsLoading, setError) {
   setError(false);
   setIsLoading(true);
-  dispatch({ type: actions.loginSucces, payload: login })
-
   const data = {
     email: login,
-    senha: password
+    password: password
   }
 
+  console.log(data)
 
   await api.post('/login', data)
     .then(response => {
-      //     await api.get('usuario/?')
+      console.log(response.headers.Authorization)
       setTimeout(() => {
         localStorage.setItem("Authorization", response.data.token)
         api.defaults.headers['Authorization'] = `${response.data.token}`
         setError(false)
         setIsLoading(false)
         dispatch({ type: actions.loginSucces })
+
         history.push('/app/dashboard')
       }, 2000);
     })
@@ -99,7 +99,7 @@ async function loginProfessor(dispatch, login, password, history, setIsLoading, 
   setIsLoading(true);
   const data = {
     email: login,
-    senha: password
+    password: password
   }
 
   await api.post('/login', data)
