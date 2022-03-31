@@ -5,6 +5,8 @@ var UserStateContext = createContext();
 var UserDispatchContext = createContext();
 
 const initialState = { email: '', isAuthenticated: '' }
+
+
 const actions = {
   loginSucces: 'LOGIN_SUCCESS',
   loginFailure: 'LOGIN_FAILURE',
@@ -13,11 +15,11 @@ const actions = {
 
 function userReducer(state, action) {
   switch (action.type) {
-    case action.loginSucces:
+    case actions.loginSucces:
       return { ...state, isAuthenticated: true };
-    case action.loginFailure:
+    case actions.loginFailure:
       return { ...state, isAuthenticated: false };
-    case action.signOut:
+    case actions.signOut:
       return { ...state, isAuthenticated: false };
     case action.payload:
       return { email: action.payload };
@@ -29,7 +31,7 @@ function userReducer(state, action) {
 
 function UserProvider({ children }) {
   const [state, dispatch] = useReducer(userReducer, initialState)
-  const [email, setEmail] = useState('')
+
 
   return (
     <UserStateContext.Provider value={state}>
@@ -60,42 +62,9 @@ function useUserDispatch() {
 
 // ###########################################################
 
-async function loginAluno(dispatch, login, password, history, setIsLoading, setError) {
-  setError(false);
-  setIsLoading(true);
-  const data = {
-    email: login,
-    password: password
-  }
 
-  console.log(data)
 
-  await api.post('/login', data)
-    .then(response => {
-      console.log(response.headers.authorization)
-      setTimeout(() => {
-        localStorage.setItem("Authorization", response.headers.authorization)
-        api.defaults.headers['Authorization'] = `${response.headers.authorization}`
-        setError(false)
-        setIsLoading(false)
-        dispatch({ type: actions.loginSucces })
-
-        history.push('/app/dashboard')
-      }, 2000);
-    })
-
-    .catch(error => {
-      setTimeout(() => {
-        // dispatch({ type: "LOGIN_FAILURE" });
-        setError(true);
-        setIsLoading(false);
-      }, 2000);
-    })
-
-}
-
-async function loginProfessor(dispatch, login, password, history, setIsLoading, setError) {
-  setError(false);
+async function login(dispatch, login, password, history, setIsLoading, setError) {
   setIsLoading(true);
   const data = {
     email: login,
@@ -104,13 +73,11 @@ async function loginProfessor(dispatch, login, password, history, setIsLoading, 
 
   await api.post('/login', data)
     .then(response => {
-      console.log(response.data.token)
       setTimeout(() => {
         localStorage.setItem("Authorization", response.headers.authorization)
         api.defaults.headers['Authorization'] = `${response.headers.authorization}`
-        setError(false)
         setIsLoading(false)
-        dispatch({ type: actions.loginSucces })
+        dispatch({ type: actions.loginSucces });
 
         history.push('/app/dashboard')
       }, 2000);
@@ -118,9 +85,10 @@ async function loginProfessor(dispatch, login, password, history, setIsLoading, 
 
     .catch(error => {
       setTimeout(() => {
-        // dispatch({ type: "LOGIN_FAILURE" });
         setError(true);
+        //  dispatch({ type: actions.loginFailure });
         setIsLoading(false);
+        setError(true);
       }, 2000);
     })
 
@@ -132,4 +100,4 @@ function signOut(dispatch, history) {
   history.push("/login");
 }
 
-export { UserProvider, useUserState, useUserDispatch, loginAluno, loginProfessor, signOut };
+export { UserProvider, useUserState, useUserDispatch, login, signOut };

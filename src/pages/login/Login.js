@@ -20,7 +20,7 @@ import logo from "./logo.svg";
 import google from "../../images/google.svg";
 
 // context
-import { useUserDispatch, loginAluno, loginProfessor, setEmail } from "../../context/UserContext";
+import { useUserDispatch, login } from "../../context/UserContext";
 
 function Login(props) {
   var classes = useStyles();
@@ -30,7 +30,7 @@ function Login(props) {
 
   // local
   var [isLoading, setIsLoading] = useState(false);
-  var [error, setError] = useState(null);
+  var [error, setError] = useState(false);
   var [activeTabId, setActiveTabId] = useState(0);
   var [nameValue, setNameValue] = useState("");
   var [loginValue, setLoginValue] = useState("valdir@mail.com");
@@ -107,7 +107,7 @@ function Login(props) {
                       loginValue.length === 0 || passwordValue.length === 0
                     }
                     onClick={() =>
-                      loginAluno(
+                      login(
                         userDispatch,
                         loginValue,
                         passwordValue,
@@ -186,7 +186,7 @@ function Login(props) {
                       loginValue.length === 0 || passwordValue.length === 0
                     }
                     onClick={() =>
-                      loginProfessor(
+                      login(
                         userDispatch,
                         loginValue,
                         passwordValue,
