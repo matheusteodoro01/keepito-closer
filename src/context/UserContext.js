@@ -79,7 +79,7 @@ async function loginAluno(dispatch, login, password, history, setIsLoading, setE
         api.defaults.headers['Authorization'] = `${response.data.token}`
         setError(false)
         setIsLoading(false)
-        dispatch({ type: actions.loginSucces, payload: login })
+        dispatch({ type: actions.loginSucces })
         history.push('/app/dashboard')
       }, 2000);
     })

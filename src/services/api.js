@@ -3,15 +3,15 @@ import axios from 'axios';
 const token = localStorage.getItem('Authorization');
 const api = axios.create({
 
-    baseURL: 'http://localhost:3333/'
+    baseURL: 'https://jornada-person-service.herokuapp.com'
 })
 
-if(token){
+if (token) {
     api.defaults.headers['Authorization'] = `${token}`
 }
 
-api.interceptors.request.use(config=>{
-  //console.log(config)
+api.interceptors.request.use(config => {
+    //console.log(config)
 
     return config
 })
