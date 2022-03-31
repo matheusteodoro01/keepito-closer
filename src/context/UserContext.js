@@ -72,10 +72,10 @@ async function loginAluno(dispatch, login, password, history, setIsLoading, setE
 
   await api.post('/login', data)
     .then(response => {
-      console.log(response.headers.Authorization)
+      console.log(response.headers.authorization)
       setTimeout(() => {
-        localStorage.setItem("Authorization", response.data.token)
-        api.defaults.headers['Authorization'] = `${response.data.token}`
+        localStorage.setItem("Authorization", response.headers.authorization)
+        api.defaults.headers['Authorization'] = `${response.headers.authorization}`
         setError(false)
         setIsLoading(false)
         dispatch({ type: actions.loginSucces })
@@ -106,8 +106,8 @@ async function loginProfessor(dispatch, login, password, history, setIsLoading, 
     .then(response => {
       console.log(response.data.token)
       setTimeout(() => {
-        localStorage.setItem("Authorization", response.data.token)
-        api.defaults.headers['Authorization'] = `${response.data.token}`
+        localStorage.setItem("Authorization", response.headers.authorization)
+        api.defaults.headers['Authorization'] = `${response.headers.authorization}`
         setError(false)
         setIsLoading(false)
         dispatch({ type: actions.loginSucces })
