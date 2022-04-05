@@ -20,7 +20,8 @@ import logo from "./logo.svg";
 import google from "../../images/google.svg";
 
 // context
-import { useUserDispatch, login } from "../../context/UserContext";
+import { useUserDispatch, login, singUp } from "../../context/UserContext";
+
 
 function Login(props) {
   var classes = useStyles();
@@ -31,10 +32,11 @@ function Login(props) {
   // local
   var [isLoading, setIsLoading] = useState(false);
   var [error, setError] = useState(null);
+  var [errorMessage, setErrorMessage] = useState('');
   var [activeTabId, setActiveTabId] = useState(0);
   var [nameValue, setNameValue] = useState("");
   var [loginValue, setLoginValue] = useState("valdir@mail.com");
-  var [passwordValue, setPasswordValue] = useState("password");
+  var [passwordValue, setPasswordValue] = useState("admin");
 
   return (
     <Grid container className={classes.container}>
@@ -55,7 +57,7 @@ function Login(props) {
             <Tab label="Cadastrar" classes={{ root: classes.tab }} />
           </Tabs>
           {activeTabId === 0 && (
-            <React.Fragment>
+            < React.Fragment >
               <Typography variant="h1" className={classes.greeting}>
                 Entre no Keepito
               </Typography>
@@ -70,7 +72,7 @@ function Login(props) {
               </div>
               <Fade in={error}>
                 <Typography color="secondary" className={classes.errorMessage}>
-                  Algo está errado com seu login ou senha :(
+                  {errorMessage}
                 </Typography>
               </Fade>
               <TextField
@@ -119,6 +121,7 @@ function Login(props) {
                         props.history,
                         setIsLoading,
                         setError,
+                        setErrorMessage
                       )
                     }
                     variant="contained"
@@ -148,7 +151,7 @@ function Login(props) {
               </Typography>
               <Fade in={error}>
                 <Typography color="secondary" className={classes.errorMessage}>
-                  Algo está errado com seu login ou senha :(
+                  {errorMessage}
                 </Typography>
               </Fade>
               <TextField
@@ -177,7 +180,7 @@ function Login(props) {
                 value={loginValue}
                 onChange={e => setLoginValue(e.target.value)}
                 margin="normal"
-                placeholder="Email Adress"
+                placeholder="Email"
                 type="email"
                 fullWidth
               />
@@ -202,13 +205,13 @@ function Login(props) {
                 ) : (
                   <Button
                     onClick={() =>
-                      login(
-                        userDispatch,
+                      singUp(
+                        nameValue,
                         loginValue,
                         passwordValue,
-                        props.history,
                         setIsLoading,
                         setError,
+                        setErrorMessage
                       )
                     }
                     disabled={
@@ -248,7 +251,7 @@ function Login(props) {
           © 2014-{new Date().getFullYear()} <a style={{ textDecoration: 'none', color: 'inherit' }} href="https://Keepito.com" rel="noopener noreferrer" target="_blank">Keepito</a>, LLC. All rights reserved.
         </Typography>
       </div>
-    </Grid>
+    </Grid >
   );
 }
 

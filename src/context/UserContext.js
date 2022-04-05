@@ -63,8 +63,36 @@ function useUserDispatch() {
 // ###########################################################
 
 
+async function singUp(email, name, password, setIsLoading, setError, setErrorMessage) {
+  setIsLoading(true);
+  const data = {
+    email,
+    name,
+    password,
+    cpf: "",
+    description: "",
+    age: 0,
+    score: 0,
+    profile: "ADMIN"
+  }
+  setTimeout(() => {
+    api.post('/users', data)
 
-async function login(dispatch, login, password, history, setIsLoading, setError) {
+      .then(data => {
+        setIsLoading(false);
+        console.log('Sucessfull')
+      })
+
+      .catch(err => {
+        setIsLoading(false);
+        setErrorMessage(err.message)
+        setError(true);
+      })
+  }, 2000);
+}
+
+
+async function login(dispatch, login, password, history, setIsLoading, setError, setErrorMessage) {
   setIsLoading(true);
   const data = {
     email: login,
@@ -78,7 +106,6 @@ async function login(dispatch, login, password, history, setIsLoading, setError)
         api.defaults.headers['Authorization'] = `${response.headers.authorization}`
         setIsLoading(false)
         dispatch({ type: actions.loginSucces });
-
         history.push('/app/dashboard')
       }, 2000);
     })
@@ -88,6 +115,7 @@ async function login(dispatch, login, password, history, setIsLoading, setError)
         setError(true);
         //  dispatch({ type: actions.loginFailure });
         setIsLoading(false);
+        setErrorMessage('Algo está errado com seu login ou senha :(')
         setError(true);
       }, 2000);
     })
@@ -100,4 +128,4 @@ function signOut(dispatch, history) {
   history.push("/login");
 }
 
-export { UserProvider, useUserState, useUserDispatch, login, signOut };
+export { UserProvider, useUserState, useUserDispatch, singUp, login, signOut };
