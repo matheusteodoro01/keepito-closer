@@ -102,8 +102,8 @@ async function login(dispatch, login, password, history, setIsLoading, setError,
   await api.post('/login', data)
     .then(response => {
       setTimeout(() => {
-        localStorage.setItem("Authorization", response.headers.authorization)
-        api.defaults.headers['Authorization'] = `${response.headers.authorization}`
+        localStorage.setItem("keepitoAuthorization", response.headers.authorization)
+        api.defaults.headers['keepitoAuthorization'] = `${response.headers.authorization}`
         setIsLoading(false)
         dispatch({ type: actions.loginSucces });
         history.push('/app/dashboard')
@@ -123,7 +123,7 @@ async function login(dispatch, login, password, history, setIsLoading, setError,
 }
 
 function signOut(dispatch, history) {
-  localStorage.removeItem("id_token");
+  localStorage.removeItem("keepitoAuthorization");
   dispatch({ type: actions.singOut });
   history.push("/login");
 }

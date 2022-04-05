@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   CircularProgress,
@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import classnames from "classnames";
+import api from '../../services/api'
 
 // styles
 import useStyles from "./styles";
@@ -37,6 +38,19 @@ function Login(props) {
   var [nameValue, setNameValue] = useState("");
   var [loginValue, setLoginValue] = useState("valdir@mail.com");
   var [passwordValue, setPasswordValue] = useState("admin");
+
+
+
+  useEffect(() => {
+    // Verifica se o usuario ja esta autenticado
+    const token = localStorage.getItem('keepitoAuthorization');
+    if (token) {
+      props.history.push('/app/dashboard')
+      localStorage.setItem("keepitoAuthorization", token)
+      api.defaults.headers['keepitoAuthorization'] = token
+      userDispatch({ type: 'LOGIN_SUCCESS' });
+    }
+  });
 
   return (
     <Grid container className={classes.container}>
