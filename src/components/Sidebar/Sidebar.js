@@ -38,6 +38,7 @@ const structure = [
     icon: <TypographyIcon />,
   },
   { id: 2, label: "Tables", link: "/app/tables", icon: <TableIcon /> },
+  { id: -1, label: "Courses", link: "/app/courses", icon: <TableIcon /> },
   {
     id: 3,
     label: "Notifications",
