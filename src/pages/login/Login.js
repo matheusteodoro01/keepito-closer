@@ -30,17 +30,17 @@ function Login(props) {
 
   // local
   var [isLoading, setIsLoading] = useState(false);
-  var [error, setError] = useState(false);
+  var [error, setError] = useState(null);
   var [activeTabId, setActiveTabId] = useState(0);
   var [nameValue, setNameValue] = useState("");
   var [loginValue, setLoginValue] = useState("valdir@mail.com");
-  var [passwordValue, setPasswordValue] = useState("admin");
+  var [passwordValue, setPasswordValue] = useState("password");
 
   return (
     <Grid container className={classes.container}>
       <div className={classes.logotypeContainer}>
         <img src={logo} alt="logo" className={classes.logotypeImage} />
-
+        <Typography className={classes.logotypeText}>Keepito</Typography>
       </div>
       <div className={classes.formContainer}>
         <div className={classes.form}>
@@ -51,23 +51,28 @@ function Login(props) {
             textColor="primary"
             centered
           >
-            <Tab label="Aluno" classes={{ root: classes.tab }} />
-            <Tab label="Professor" classes={{ root: classes.tab }} />
+            <Tab label="Login" classes={{ root: classes.tab }} />
+            <Tab label="Cadastrar" classes={{ root: classes.tab }} />
           </Tabs>
           {activeTabId === 0 && (
             <React.Fragment>
               <Typography variant="h1" className={classes.greeting}>
-                <img src={logo} alt="logo" className={classes.logotypeImageLogin} />
+                Entre no Keepito
               </Typography>
-
+              <Button size="large" className={classes.googleButton}>
+                <img src={google} alt="google" className={classes.googleIcon} />
+                &nbsp;Entre com o Google
+              </Button>
+              <div className={classes.formDividerContainer}>
+                <div className={classes.formDivider} />
+                <Typography className={classes.formDividerWord}>ou</Typography>
+                <div className={classes.formDivider} />
+              </div>
               <Fade in={error}>
                 <Typography color="secondary" className={classes.errorMessage}>
-                  Algo está errado com seu email ou senha :(
+                  Algo está errado com seu login ou senha :(
                 </Typography>
               </Fade>
-              <Typography variant="h2" className={classes.subGreeting}>
-                Login Aluno
-              </Typography>
               <TextField
                 id="email"
                 InputProps={{
@@ -136,17 +141,31 @@ function Login(props) {
           {activeTabId === 1 && (
             <React.Fragment>
               <Typography variant="h1" className={classes.greeting}>
-                <img src={logo} alt="logo" className={classes.logotypeImageLogin} />
+                Bem vindo!
               </Typography>
-
+              <Typography variant="h2" className={classes.subGreeting}>
+                Crie sua conta agora!
+              </Typography>
               <Fade in={error}>
                 <Typography color="secondary" className={classes.errorMessage}>
-                  Algo está errado com seu email ou senha :(
+                  Algo está errado com seu login ou senha :(
                 </Typography>
               </Fade>
-              <Typography variant="h2" className={classes.subGreeting}>
-                Login Professor
-              </Typography>
+              <TextField
+                id="name"
+                InputProps={{
+                  classes: {
+                    underline: classes.textFieldUnderline,
+                    input: classes.textField,
+                  },
+                }}
+                value={nameValue}
+                onChange={e => setNameValue(e.target.value)}
+                margin="normal"
+                placeholder="Full Name"
+                type="text"
+                fullWidth
+              />
               <TextField
                 id="email"
                 InputProps={{
@@ -177,14 +196,11 @@ function Login(props) {
                 type="password"
                 fullWidth
               />
-              <div className={classes.formButtons}>
+              <div className={classes.creatingButtonContainer}>
                 {isLoading ? (
-                  <CircularProgress size={26} className={classes.loginLoader} />
+                  <CircularProgress size={26} />
                 ) : (
                   <Button
-                    disabled={
-                      loginValue.length === 0 || passwordValue.length === 0
-                    }
                     onClick={() =>
                       login(
                         userDispatch,
@@ -195,28 +211,41 @@ function Login(props) {
                         setError,
                       )
                     }
+                    disabled={
+                      loginValue.length === 0 ||
+                      passwordValue.length === 0 ||
+                      nameValue.length === 0
+                    }
+                    size="large"
                     variant="contained"
                     color="primary"
-                    size="large"
+                    fullWidth
+                    className={classes.createAccountButton}
                   >
-                    Login
+                    Create your account
                   </Button>
                 )}
-                <Button
-                  color="primary"
-                  size="large"
-                  className={classes.forgetButton}
-                >
-                  Forget Password
-                </Button>
               </div>
-
-
+              <div className={classes.formDividerContainer}>
+                <div className={classes.formDivider} />
+                <Typography className={classes.formDividerWord}>ou</Typography>
+                <div className={classes.formDivider} />
+              </div>
+              <Button
+                size="large"
+                className={classnames(
+                  classes.googleButton,
+                  classes.googleButtonCreating,
+                )}
+              >
+                <img src={google} alt="google" className={classes.googleIcon} />
+                &nbsp;Cadastrar-se com o Google
+              </Button>
             </React.Fragment>
           )}
         </div>
         <Typography color="primary" className={classes.copyright}>
-          © 2014-{new Date().getFullYear()} <a style={{ textDecoration: 'none', color: 'inherit' }} >Keepito</a>, LLC. All rights reserved.
+          © 2014-{new Date().getFullYear()} <a style={{ textDecoration: 'none', color: 'inherit' }} href="https://Keepito.com" rel="noopener noreferrer" target="_blank">Keepito</a>, LLC. All rights reserved.
         </Typography>
       </div>
     </Grid>
