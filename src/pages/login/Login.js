@@ -36,8 +36,8 @@ function Login(props) {
   var [errorMessage, setErrorMessage] = useState('');
   var [activeTabId, setActiveTabId] = useState(0);
   var [nameValue, setNameValue] = useState("");
-  var [loginValue, setLoginValue] = useState("valdir@mail.com");
-  var [passwordValue, setPasswordValue] = useState("admin");
+  var [loginValue, setLoginValue] = useState("");
+  var [passwordValue, setPasswordValue] = useState("");
 
 
 
@@ -56,7 +56,6 @@ function Login(props) {
     <Grid container className={classes.container}>
       <div className={classes.logotypeContainer}>
         <img src={logo} alt="logo" className={classes.logotypeImage} />
-        <Typography className={classes.logotypeText}>Keepito</Typography>
       </div>
       <div className={classes.formContainer}>
         <div className={classes.form}>
@@ -100,7 +99,7 @@ function Login(props) {
                 value={loginValue}
                 onChange={e => setLoginValue(e.target.value)}
                 margin="normal"
-                placeholder="Email Adress"
+                placeholder="Email"
                 type="email"
                 fullWidth
               />
@@ -115,7 +114,7 @@ function Login(props) {
                 value={passwordValue}
                 onChange={e => setPasswordValue(e.target.value)}
                 margin="normal"
-                placeholder="Password"
+                placeholder="Senha"
                 type="password"
                 fullWidth
               />
@@ -150,7 +149,7 @@ function Login(props) {
                   size="large"
                   className={classes.forgetButton}
                 >
-                  Forget Password
+                  Esqueci sua senha?
                 </Button>
               </div>
             </React.Fragment>
@@ -179,7 +178,7 @@ function Login(props) {
                 value={nameValue}
                 onChange={e => setNameValue(e.target.value)}
                 margin="normal"
-                placeholder="Full Name"
+                placeholder="Nome"
                 type="text"
                 fullWidth
               />
@@ -209,7 +208,7 @@ function Login(props) {
                 value={passwordValue}
                 onChange={e => setPasswordValue(e.target.value)}
                 margin="normal"
-                placeholder="Password"
+                placeholder="Senha"
                 type="password"
                 fullWidth
               />
@@ -239,7 +238,7 @@ function Login(props) {
                     fullWidth
                     className={classes.createAccountButton}
                   >
-                    Create your account
+                    Criar sua conta
                   </Button>
                 )}
               </div>
