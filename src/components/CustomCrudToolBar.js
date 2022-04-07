@@ -13,17 +13,22 @@ const defaultToolbarStyles = {
 
 class CustomCrudToolBar extends React.Component {
   
-  teste = (click = false) => {
-      if(click)
-    this.props.teste(click)
+  constructor(props) {
+    super(props);
+    this.insertFunction = this.insertFunction.bind(this);
+    this.updateFunction = this.updateFunction.bind(this);
+    this.deleteFunction = this.deleteFunction.bind(this);
+    this.tableContext = this.tableContext.bind(this);
   }
-  updateFunction = (click = false) => {
-    if(click)
-    this.props.updateFunction(click)
+
+  insertFunction = () => {      
+    this.props.insertFunction()
   }
-  deleteFunction = (click = false) => {
-    if(click)
-    this.props.deleteFunction(click)
+  updateFunction = () => {    
+    this.props.updateFunction()
+  }
+  deleteFunction = () => {    
+    this.props.deleteFunction()
   }
   tableContext = () => {
     return this.props.tableContext ?? "record";
@@ -34,18 +39,18 @@ class CustomCrudToolBar extends React.Component {
 
     return (
       <React.Fragment>
-        <Tooltip title={"Add a new " + this.tableContext()}>
-          <IconButton className={classes.iconButton} onClick={this.teste(true)}>
+        <Tooltip title={"Add a new " + this.tableContext}>
+          <IconButton className={classes.iconButton} onClick={this.insertFunction}>
             <AddIcon className={classes.AddIcon} />
           </IconButton>
         </Tooltip>
-        <Tooltip title={"Update a " + this.tableContext()}>
-          <IconButton className={classes.iconButton} onClick={this.updateFunction(true)}>
+        <Tooltip title={"Update a " + this.tableContext}>
+          <IconButton className={classes.iconButton} onClick={this.updateFunction}>
             <EditIcon className={classes.Edit} />
           </IconButton>
         </Tooltip>
-        <Tooltip title={"Delete a " + this.tableContext()}>
-          <IconButton className={classes.iconButton} onClick={this.deleteFunction(true)}>
+        <Tooltip title={"Delete a " + this.tableContext}>
+          <IconButton className={classes.iconButton} onClick={this.deleteFunction}>
             <DeleteForeverIcon className={classes.DeleteForever} />
           </IconButton>
         </Tooltip>

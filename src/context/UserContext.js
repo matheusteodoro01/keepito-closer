@@ -65,33 +65,38 @@ function useUserDispatch() {
 
 
 async function login(dispatch, login, password, history, setIsLoading, setError) {
-  setIsLoading(true);
-  const data = {
-    email: login,
-    password: password
-  }
+  // setIsLoading(true);
+  // const data = {
+  //   email: login,
+  //   password: password
+  // }
 
-  await api.post('/login', data)
-    .then(response => {
-      setTimeout(() => {
-        localStorage.setItem("Authorization", response.headers.authorization)
-        api.defaults.headers['Authorization'] = `${response.headers.authorization}`
-        setIsLoading(false)
-        dispatch({ type: actions.loginSucces });
+  // await api.post('/login', data)
+  //   .then(response => {
+  //     setTimeout(() => {
+  //       localStorage.setItem("Authorization", response.headers.authorization)
+  //       api.defaults.headers['Authorization'] = `${response.headers.authorization}`
+  //       setIsLoading(false)
+  //       dispatch({ type: actions.loginSucces });
 
-        history.push('/app/dashboard')
-      }, 2000);
-    })
+  //       history.push('/app/dashboard')
+  //     }, 2000);
+  //   })
 
-    .catch(error => {
-      setTimeout(() => {
-        setError(true);
-        //  dispatch({ type: actions.loginFailure });
-        setIsLoading(false);
-        setError(true);
-      }, 2000);
-    })
+  //   .catch(error => {
+  //     setTimeout(() => {
+  //       setError(true);
+  //       //  dispatch({ type: actions.loginFailure });
+  //       setIsLoading(false);
+  //       setError(true);
+  //     }, 2000);
+  //   })
+  localStorage.setItem("Authorization", "response.headers.authorization")
+  api.defaults.headers['Authorization'] = "`${response.headers.authorization}`"
+  setIsLoading(false)
+  dispatch({ type: actions.loginSucces });
 
+  history.push('/app/dashboard')
 }
 
 function signOut(dispatch, history) {
