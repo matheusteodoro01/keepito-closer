@@ -3,7 +3,7 @@ import axios from 'axios';
 const token = localStorage.getItem('Authorization');
 const api = axios.create({
 
-    baseURL: 'https://jornada-person-service.herokuapp.com'
+    baseURL: 'https://jornada-back.herokuapp.com'
 })
 
 if (token) {
