@@ -63,7 +63,7 @@ function useUserDispatch() {
 // ###########################################################
 
 
-async function singUp(email, name, password, setIsLoading, setError, setErrorMessage) {
+async function singUp( name, email, password, setIsLoading, setError, setErrorMessage) {
   setIsLoading(true);
   const data = {
     email,
