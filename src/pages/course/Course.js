@@ -10,11 +10,8 @@ import CourseForm from "../../components/CourseForm";
 // styles
 import useStyles from "../../components/styles";
 
-const datatableData = [
-  ["Teste", 1, "teste"],
-  ["Teste1", 45, "teste1"],
-  ["Teste2", 32, "teste2"],
-];
+// context
+import { GetCoursesGrid, EditCourse, AddCourse, DeleteCourse } from "../../context/CourseContext";
 
 export default function Courses() {
   var classes = useStyles();
@@ -23,6 +20,7 @@ export default function Courses() {
     [context, setContext] = useState('course'),
     [isUpdate, setIsUpdate] = useState(false),
     [dadosForm, setDadosForm] = useState(),
+    [datatableData, setDatatableData] = useState([]),
     handleOpenForm = () => setShowForm(true),
     handleCloseForm = () => setShowForm(false),
     insertFunction = function () {
@@ -30,11 +28,14 @@ export default function Courses() {
       setIsUpdate(false);
       handleOpenForm()
     },
-    submitFuntion = function () {      
-      console.log("submitFunction");
+    submitFuntion = function (isUpdate, dadosForm) {
+      if (isUpdate)
+        EditCourse(dadosForm)
+      else
+        AddCourse(dadosForm)
     },
-    deleteFunction = function () {
-      console.log("deleteFunction");
+    deleteFunction = function (idCourse) {
+      DeleteCourse(idCourse)
     },
     updateFunction = function () {
       setTitleForm('Update the ' + context)
@@ -43,6 +44,9 @@ export default function Courses() {
         name: 'teste'
       })
       handleOpenForm()
+    },
+    loadGrid = function () {
+      setDatatableData(GetCoursesGrid())
     },
     options = {
       filterType: "checkbox",
@@ -68,7 +72,7 @@ export default function Courses() {
         onClose={handleCloseForm}
       >
         <Box className={classes.boxModalForm}>
-          <CourseForm title={titleForm} submitFuntion={submitFuntion} dados={dadosForm} isUpdate={isUpdate}/>
+          <CourseForm title={titleForm} submitFuntion={submitFuntion} dados={dadosForm} isUpdate={isUpdate} />
         </Box>
       </Modal>
       <Grid item xs={12}>

@@ -24,7 +24,7 @@ export default function CourseForm(props) {
                 required
                 id="outlined-required"
                 label="Text" />
-            <Button variant="raised" onClick={props.submitFuntion}>Submit</Button>
+            <Button variant="raised" onClick={props.submitFuntion(props.isUpdate, state)}>Submit</Button>
         </FormControl >
     );
 }
