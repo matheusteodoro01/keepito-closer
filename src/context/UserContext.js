@@ -76,7 +76,7 @@ async function singUp( name, email, password, setIsLoading, setError, setErrorMe
     profile: "ADMIN"
   }
   setTimeout(() => {
-    api.post('/users', data)
+    api.post('/v1/users', data)
 
       .then(data => {
         setIsLoading(false);
