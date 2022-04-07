@@ -80,7 +80,7 @@ async function singUp( name, email, password, setIsLoading, setError, setErrorMe
 
       .then(data => {
         setIsLoading(false);
-        console.log('Sucessfull')
+        setErrorMessage('Conta criada com sucesso!')
       })
 
       .catch(err => {
