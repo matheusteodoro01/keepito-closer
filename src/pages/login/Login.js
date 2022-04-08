@@ -224,7 +224,8 @@ function Login(props) {
                         passwordValue,
                         setIsLoading,
                         setError,
-                        setErrorMessage
+                        setErrorMessage,
+                        setActiveTabId
                       )
                     }
                     disabled={
