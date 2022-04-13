@@ -10,6 +10,7 @@ import {
   LibraryBooks as LibraryIcon,
   HelpOutline as FAQIcon,
   ArrowBack as ArrowBackIcon,
+  Bookmarks as CoursesIcon,
 } from "@material-ui/icons";
 import { useTheme } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
@@ -37,6 +38,7 @@ const structure = [
     link: "/app/typography",
     icon: <TypographyIcon />,
   },
+  { id: -1, label: "Courses", link: "/app/courses", icon: <CoursesIcon /> },
   { id: 2, label: "Tables", link: "/app/tables", icon: <TableIcon /> },
   {
     id: 3,
