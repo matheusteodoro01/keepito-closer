@@ -29,6 +29,7 @@ import Typography from "../../pages/typography";
 import Notifications from "../../pages/notifications";
 import Maps from "../../pages/maps";
 import Tables from "../../pages/tables";
+import Courses from "../../pages/course";
 import Icons from "../../pages/icons";
 import Charts from "../../pages/charts";
 
@@ -56,6 +57,7 @@ function Layout(props) {
               <Route path="/app/dashboard" component={Dashboard} />
               <Route path="/app/typography" component={Typography} />
               <Route path="/app/tables" component={Tables} />
+              <Route path="/app/courses" component={Courses} />
               <Route path="/app/notifications" component={Notifications} />
               <Route
                 exact
