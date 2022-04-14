@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Grid, Modal, Box } from "@material-ui/core";
 import MUIDataTable from "mui-datatables";
 
+// api
 import api from '../../services/api'
 
 // components
@@ -12,11 +13,9 @@ import CourseForm from "../../components/CourseForm";
 // styles
 import useStyles from "../../components/styles";
 
-// context
-import { EditCourse, AddCourse, DeleteCourse } from "../../context/CourseContext";
-
 export default function Courses() {
-  var classes = useStyles();
+  const context = "course";
+  let classes = useStyles();
   const [showForm, setShowForm] = useState(false),
     [titleForm, setTitleForm] = useState(''),
     [isUpdate, setIsUpdate] = useState(false),
@@ -25,21 +24,18 @@ export default function Courses() {
     handleOpenForm = () => setShowForm(true),
     handleCloseForm = () => setShowForm(false),
     insertFunction = function () {
-      setTitleForm('Insert a new Curso')
+      setTitleForm('Insert a new ' + context)
       setIsUpdate(false);
+      setDadosForm(null)
       handleOpenForm()
     },
     submitFuntion = function (isUpdate, dadosForm) {
-      if (isUpdate)
-        EditCourse(dadosForm)
-      else
-        AddCourse(dadosForm)
+     
     },
     deleteFunction = function (idCourse) {
-      DeleteCourse(idCourse)
     },
     updateFunction = function () {
-      setTitleForm('Update the Curso')
+      setTitleForm('Update the ' + context)
       setIsUpdate(true);
       setDadosForm({
         name: 'teste'
@@ -57,7 +53,7 @@ export default function Courses() {
             insertFunction={insertFunction}
             deleteFunction={deleteFunction}
             updateFunction={updateFunction}
-            tableContext={'Curso'}
+            tableContext={context}
           />
         );
       }

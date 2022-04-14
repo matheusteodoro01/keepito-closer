@@ -23,7 +23,12 @@ export default function CourseForm(props) {
             <TextField
                 required
                 id="outlined-required"
-                label="Text" />
+                label="Description" 
+                value={state?.description}
+                InputProps={{
+                    readOnly: props.isUpdate,
+                }}
+                />
             <Button variant="raised" onClick={props.submitFuntion(props.isUpdate, state)}>Submit</Button>
         </FormControl >
     );
