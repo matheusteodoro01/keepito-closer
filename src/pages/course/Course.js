@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Grid, Modal, Box } from "@material-ui/core";
 import MUIDataTable from "mui-datatables";
 
+import api from '../../services/api'
+
 // components
 import PageTitle from "../../components/PageTitle";
 import CustomCrudToolBar from "../../components/CustomCrudToolBar";
@@ -11,20 +13,19 @@ import CourseForm from "../../components/CourseForm";
 import useStyles from "../../components/styles";
 
 // context
-import { GetCoursesGrid, EditCourse, AddCourse, DeleteCourse } from "../../context/CourseContext";
+import { EditCourse, AddCourse, DeleteCourse } from "../../context/CourseContext";
 
 export default function Courses() {
   var classes = useStyles();
   const [showForm, setShowForm] = useState(false),
     [titleForm, setTitleForm] = useState(''),
-    [context, setContext] = useState('course'),
     [isUpdate, setIsUpdate] = useState(false),
     [dadosForm, setDadosForm] = useState(),
-    [datatableData, setDatatableData] = useState([]),
+    [courses, setCourses] = useState([]),
     handleOpenForm = () => setShowForm(true),
     handleCloseForm = () => setShowForm(false),
     insertFunction = function () {
-      setTitleForm('Insert a new ' + context)
+      setTitleForm('Insert a new Curso')
       setIsUpdate(false);
       handleOpenForm()
     },
@@ -38,17 +39,14 @@ export default function Courses() {
       DeleteCourse(idCourse)
     },
     updateFunction = function () {
-      setTitleForm('Update the ' + context)
+      setTitleForm('Update the Curso')
       setIsUpdate(true);
       setDadosForm({
         name: 'teste'
       })
       handleOpenForm()
     },
-    loadGrid = function () {
-      let dadosGrid = GetCoursesGrid();
-      setDatatableData(dadosGrid)
-    },
+
     options = {
       filterType: "checkbox",
       download: false,
@@ -59,15 +57,27 @@ export default function Courses() {
             insertFunction={insertFunction}
             deleteFunction={deleteFunction}
             updateFunction={updateFunction}
-            tableContext={context}
+            tableContext={'Curso'}
           />
         );
       }
     };
 
   useEffect(() => {
-    // loadGrid();
-  });
+
+    async function fetchData() {
+      await api.get('/v1/courses', {
+      })
+        .then((response) => {
+          setCourses(response.data.content)
+        })
+
+
+    }
+    fetchData();
+
+
+  }, []);
 
   return (
     <>
@@ -83,8 +93,8 @@ export default function Courses() {
       </Modal>
       <Grid item xs={12}>
         <MUIDataTable
-          data={datatableData}
-          columns={["Name", "Studens' quantity", "Description", "State"]}
+          data={courses}
+          columns={["id", "name", "description"]}
           options={options}
         />
       </Grid>
