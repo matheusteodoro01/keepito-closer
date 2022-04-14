@@ -16,4 +16,6 @@ api.interceptors.request.use(config => {
     return config
 })
 
+api.version = "/v1/"
+
 export default api;

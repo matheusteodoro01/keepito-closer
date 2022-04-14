@@ -66,18 +66,14 @@ export default function Courses() {
   useEffect(() => {
 
     async function fetchData() {
-      await api.get('/v1/courses', {
+      await api.get(api.version + 'courses', {
       })
         .then((response) => {
           setCourses(response.data.content)
         })
-
-
     }
     fetchData();
-
-
-  }, []);
+  }, [courses]);
 
   return (
     <>
