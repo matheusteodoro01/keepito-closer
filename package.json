@@ -54,6 +54,7 @@
   },
   "devDependencies": {
     "@babel/helper-call-delegate": "^7.11.4",
+    "git-commit-msg-linter": "^4.1.1",
     "prettier": "^2.1.1"
   }
 }
