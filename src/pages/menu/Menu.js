@@ -36,17 +36,19 @@ export default function Menu() {
   return (
     <>
       <PageTitle title="Cursos" />
-      {courses.map(course => (
-        <Grid container spacing={4}>
-          <Grid item xs={12} md={6}>
+      <Grid container spacing={2}>
+        {courses.map(course => (
+
+          <Grid item xs={4} md={4}>
             <Widget title={course.name} disableWidgetMenu>
               <div className={classes.dashedBorder}>
                 <p>{course.description}</p>
               </div>
             </Widget>
+
           </Grid>
-        </Grid>
-      ))}
+        ))}
+      </Grid>
     </>
   );
 }
