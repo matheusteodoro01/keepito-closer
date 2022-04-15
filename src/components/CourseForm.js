@@ -7,16 +7,13 @@ import useStyles from "./styles";
 
 export default function CourseForm(props) {
     const classes = useStyles(),
-    [state, setState] = useState(props.data),
-    handleChange = (event) => { 
-        let auxState = state ?? {};
-        auxState[event.target.name] = event.target.value;
-        setState(auxState);  
-    },
-    subimitClick = (event)=>{
-        props.submitFuntion(props.isUpdate, state);
-        event.preventDefault();
-    };
+        [name, setName] = useState(props.name),
+        [description, setDescription] = useState(props.description),
+
+        subimitClick = (event) => {
+            props.submitFuntion(props.isUpdate, { name, description });
+            event.preventDefault();
+        };
     return (
         <FormControl className={classes.form}>
             <legend>{props.title}</legend>
@@ -25,8 +22,8 @@ export default function CourseForm(props) {
                 id="outlined-required"
                 label="Name"
                 name="name"
-                value={state?.name}
-                onChange={handleChange}
+                value={name}
+                onChange={e => setName(e.target.value)}
                 InputProps={{
                     readOnly: props.isUpdate,
                 }}
@@ -34,14 +31,14 @@ export default function CourseForm(props) {
             <TextField
                 required
                 id="outlined-required"
-                label="Description" 
+                label="Description"
                 name="description"
-                value={state?.description}
-                onChange={handleChange}
+                value={description}
+                onChange={e => setDescription(e.target.value)}
                 InputProps={{
                     readOnly: props.isUpdate,
                 }}
-                />
+            />
             <Button variant="raised" onClick={subimitClick}>Submit</Button>
         </FormControl >
     );
