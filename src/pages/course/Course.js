@@ -19,25 +19,55 @@ export default function Courses() {
   const [showForm, setShowForm] = useState(false),
     [titleForm, setTitleForm] = useState(''),
     [isUpdate, setIsUpdate] = useState(false),
-    [dadosForm, setDadosForm] = useState(),
+    [dataForm, setDataForm] = useState({}),
     [courses, setCourses] = useState([]),
+    loadCourses = () =>{
+      const configsGetCourse = {
+        page:0,
+        linesPerPage: 10,
+        direction: 'ASC',
+        orderby: 'id'
+      }
+      async function fetchData() {
+        await api.get(api.version + 'courses', configsGetCourse)
+          .then((response) => {
+            setCourses(response.data.content)
+          })
+      }
+      fetchData();
+    },
     handleOpenForm = () => setShowForm(true),
     handleCloseForm = () => setShowForm(false),
     insertFunction = function () {
       setTitleForm('Insert a new ' + context)
       setIsUpdate(false);
-      setDadosForm(null)
+      setDataForm(null)
       handleOpenForm()
     },
     submitFuntion = function (isUpdate, dadosForm) {
-     
+     if(!isUpdate){
+      async function addCourse() {
+        await api.post(api.version + 'courses', dadosForm)
+          .then((response) => {
+            loadCourses();
+            handleCloseForm();
+          })
+          .catch(function (error) {
+            debugger
+            console.log(error);
+          });
+      }
+      addCourse();
+     }else {
+
+     }
     },
     deleteFunction = function (idCourse) {
     },
     updateFunction = function () {
       setTitleForm('Update the ' + context)
       setIsUpdate(true);
-      setDadosForm({
+      setDataForm({
         name: 'teste'
       })
       handleOpenForm()
@@ -60,15 +90,7 @@ export default function Courses() {
     };
 
   useEffect(() => {
-
-    async function fetchData() {
-      await api.get(api.version + 'courses', {
-      })
-        .then((response) => {
-          setCourses(response.data.content)
-        })
-    }
-    fetchData();
+    loadCourses();
   }, [courses]);
 
   return (
@@ -80,7 +102,7 @@ export default function Courses() {
         onClose={handleCloseForm}
       >
         <Box className={classes.boxModalForm}>
-          <CourseForm title={titleForm} submitFuntion={submitFuntion} dados={dadosForm} isUpdate={isUpdate} />
+          <CourseForm title={titleForm} submitFuntion={submitFuntion} data={dataForm} isUpdate={isUpdate} />
         </Box>
       </Modal>
       <Grid item xs={12}>
