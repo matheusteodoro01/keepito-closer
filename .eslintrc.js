@@ -20,6 +20,7 @@ module.exports = {
         'react'
     ],
     rules: {
+        "no-undef": "off",
         "no-unused-vars": "off",
         "react/prop-types": "off",
         "react/no-unescaped-entities": "off",
