@@ -9,7 +9,7 @@ module.exports = {
         'plugin:react/recommended'
     ],
     parserOptions: {
-        ecmaVersion: 6,
+        "ecmaVersion": 8,
         sourceType: "module",
         ecmaFeatures: {
             modules: true,
@@ -20,6 +20,7 @@ module.exports = {
         'react'
     ],
     rules: {
+        "no-inner-declarations": "off",
         "no-unused-vars": "off",
         "react/prop-types": "off",
         "react/no-unescaped-entities": "off",
