@@ -13,7 +13,7 @@ import CourseForm from "../../components/CourseForm";
 // styles
 import useStyles from "../../components/styles";
 
-export default function Courses() {
+export default function Courses () {
   const context = "course";
   let classes = useStyles();
   const [showForm, setShowForm] = useState(false),
@@ -21,14 +21,14 @@ export default function Courses() {
     [isUpdate, setIsUpdate] = useState(false),
     [dataForm, setDataForm] = useState({}),
     [courses, setCourses] = useState([]),
-    loadCourses = () =>{
+    loadCourses = () => {
       const configsGetCourse = {
-        page:0,
+        page: 0,
         linesPerPage: 10,
         direction: 'ASC',
         orderby: 'id'
       }
-      async function fetchData() {
+      async function fetchData () {
         await api.get(api.version + 'courses', configsGetCourse)
           .then((response) => {
             setCourses(response.data.content)
@@ -45,22 +45,19 @@ export default function Courses() {
       handleOpenForm()
     },
     submitFuntion = function (isUpdate, dadosForm) {
-     if(!isUpdate){
-      async function addCourse() {
-        await api.post(api.version + 'courses', dadosForm)
-          .then((response) => {
-            loadCourses();
-            handleCloseForm();
-          })
-          .catch(function (error) {
-            debugger
-            console.log(error);
-          });
+      if (!isUpdate) {
+        async function addCourse () {
+          await api.post(api.version + 'courses', dadosForm)
+            .then((response) => {
+              loadCourses();
+              handleCloseForm();
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
+        addCourse();
       }
-      addCourse();
-     }else {
-
-     }
     },
     deleteFunction = function (idCourse) {
     },
