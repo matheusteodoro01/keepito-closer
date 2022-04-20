@@ -7,11 +7,12 @@ import useStyles from "./styles";
 
 export default function CourseForm(props) {
     const classes = useStyles(),
-        [name, setName] = useState(props.name),
-        [description, setDescription] = useState(props.description),
+        [id, setId] = useState(props.data?.id),
+        [name, setName] = useState(props.data?.name),
+        [description, setDescription] = useState(props.data?.description),
 
         subimitClick = (event) => {
-            props.submitFuntion(props.isUpdate, { name, description });
+            props.submitFuntion(props.isUpdate, { id, name, description });
             event.preventDefault();
         };
     return (
@@ -24,9 +25,9 @@ export default function CourseForm(props) {
                 name="name"
                 value={name}
                 onChange={e => setName(e.target.value)}
-                InputProps={{
-                    readOnly: props.isUpdate,
-                }}
+            // InputProps={{
+            //     readOnly: props.isUpdate,
+            // }}
             />
             <TextField
                 required
@@ -35,9 +36,9 @@ export default function CourseForm(props) {
                 name="description"
                 value={description}
                 onChange={e => setDescription(e.target.value)}
-                InputProps={{
-                    readOnly: props.isUpdate,
-                }}
+            // InputProps={{
+            //     readOnly: props.isUpdate,
+            // }}
             />
             <Button variant="raised" onClick={subimitClick}>Submit</Button>
         </FormControl >
