@@ -14,9 +14,9 @@ import CourseForm from "../../components/CourseForm";
 import useStyles from "../../components/styles";
 
 export default function Courses() {
-  const context = "course";
   let classes = useStyles();
-  const [showForm, setShowForm] = useState(false),
+  const context = "course",
+    [showForm, setShowForm] = useState(false),
     [titleForm, setTitleForm] = useState(''),
     [isUpdate, setIsUpdate] = useState(false),
     [dataForm, setDataForm] = useState({}),
@@ -25,9 +25,9 @@ export default function Courses() {
     loadCourses = () => {
       const configsGetCourse = {
         page: 0,
-        linesPerPage: 10,
+        linesPerPage: 2,
         direction: 'ASC',
-        orderby: 'id'
+        orderBy: 'id'
       }
       async function fetchData() {
         await api.get(api.version + 'courses', configsGetCourse)
@@ -76,7 +76,7 @@ export default function Courses() {
         updateCourse();
       }
     },
-    deleteFunction = function (idCourse) {
+    deleteFunction = function () {
     },
     updateFunction = function () {
       let id = selectionModel.id;

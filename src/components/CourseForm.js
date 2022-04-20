@@ -7,9 +7,9 @@ import useStyles from "./styles";
 
 export default function CourseForm(props) {
     const classes = useStyles(),
-        [id, setId] = useState(props.data.id),
-        [name, setName] = useState(props.data.name),
-        [description, setDescription] = useState(props.data.description),
+        [id, setId] = useState(props.data?.id),
+        [name, setName] = useState(props.data?.name),
+        [description, setDescription] = useState(props.data?.description),
 
         subimitClick = (event) => {
             props.submitFuntion(props.isUpdate, { id, name, description });
