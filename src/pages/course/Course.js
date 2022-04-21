@@ -22,13 +22,15 @@ export default function Courses() {
     [dataForm, setDataForm] = useState({}),
     [courses, setCourses] = useState([]),
     [selectionModel, setSelectionModel] = React.useState([]),
-    loadCourses = () => {
-      const configsGetCourse = {
+    [configsGetCourse, setConfigsGetCourse] = React.useState({
+      params: {
         page: 0,
-        linesPerPage: 2,
+        linesPerPage: 10,
         direction: 'ASC',
         orderBy: 'id'
       }
+    }),
+    loadCourses = () => {
       async function fetchData() {
         await api.get(api.version + 'courses', configsGetCourse)
           .then((response) => {
@@ -49,10 +51,10 @@ export default function Courses() {
       setDataForm(null)
       handleOpenForm()
     },
-    submitFuntion = function (isUpdate, dadosForm) {
+    submitFuntion = function (isUpdate, dataForm) {
       if (!isUpdate) {
         async function addCourse() {
-          await api.post(api.version + 'courses', dadosForm)
+          await api.post(api.version + 'courses', dataForm)
             .then((response) => {
               loadCourses();
               handleCloseForm();
@@ -63,8 +65,9 @@ export default function Courses() {
         }
         addCourse();
       } else {
+        let params = { name: dataForm.name, description: dataForm.description };
         async function updateCourse() {
-          await api.put(api.version + 'courses/' + dadosForm.id, dadosForm)
+          await api.put(api.version + 'courses/' + dataForm.id, params)
             .then((response) => {
               loadCourses();
               handleCloseForm();
@@ -101,6 +104,18 @@ export default function Courses() {
         />
       );
     },
+    onChangeRowsPerPage = (numberOfRows) => {
+      let configAUX = configsGetCourse;
+      configAUX.params.linesPerPage = numberOfRows;
+      setConfigsGetCourse(configAUX);
+      loadCourses();
+    },
+    onChangePage = (currentPage) => {
+      let configAUX = configsGetCourse;
+      configAUX.params.page = currentPage;
+      setConfigsGetCourse(configAUX);
+      loadCourses();
+    },
     datatableOptions = {
       filterType: "dropdown",
       download: false,
@@ -109,7 +124,33 @@ export default function Courses() {
       selectToolbarPlacement: 'none',
       customToolbar: handleCustomToolbar,
       onRowSelectionChange: onRowSelectionChange,
-    };
+      onChangeRowsPerPage: onChangeRowsPerPage,
+      onChangePage: onChangePage
+    },
+    dataTableColumns = [
+      {
+        name: "id",
+        label: "Code",
+        options: {
+          filter: true,
+          sort: true,
+        }
+      }, {
+        name: "name",
+        label: "Name",
+        options: {
+          filter: true,
+          sort: true,
+        }
+      }, {
+        name: "description",
+        label: "Description",
+        options: {
+          filter: true,
+          sort: true,
+        }
+      }
+    ];
 
   useEffect(() => {
     loadCourses();
@@ -130,7 +171,7 @@ export default function Courses() {
       <Grid item xs={12}>
         <MUIDataTable
           data={courses}
-          columns={["id", "name", "description"]}
+          columns={dataTableColumns}
           options={datatableOptions}
         />
       </Grid>
