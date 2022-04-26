@@ -8,7 +8,7 @@ import api from '../../services/api'
 // components
 import PageTitle from "../../components/PageTitle";
 import CustomCrudToolBar from "../../components/CustomCrudToolBar";
-import CourseForm from "../../components/CourseForm";
+import CourseForm from "./CourseForm";
 
 // styles
 import useStyles from "../../components/styles";
@@ -164,7 +164,7 @@ export default function Courses() {
         open={showForm}
         onClose={handleCloseForm}
       >
-        <Box className={classes.boxModalForm}>
+        <Box className={classes.boxModalCourseForm}>
           <CourseForm title={titleForm} submitFuntion={submitFuntion} data={dataForm} isUpdate={isUpdate} />
         </Box>
       </Modal>
