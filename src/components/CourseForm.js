@@ -18,6 +18,7 @@ export default function CourseForm(props) {
     return (
         <FormControl className={classes.form}>
             <legend>{props.title}</legend>
+            <div> 
             <TextField
                 required
                 id="outlined-required"
@@ -36,11 +37,9 @@ export default function CourseForm(props) {
                 name="description"
                 value={description}
                 onChange={e => setDescription(e.target.value)}
-            // InputProps={{
-            //     readOnly: props.isUpdate,
-            // }}
             />
-            <Button variant="raised" onClick={subimitClick}>Submit</Button>
+            </div> 
+            <Button onClick={subimitClick}>Submit</Button>
         </FormControl >
     );
 }
