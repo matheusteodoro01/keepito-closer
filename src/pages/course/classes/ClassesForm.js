@@ -2,21 +2,19 @@ import React, { useState } from 'react';
 import { FormControl, TextField, Button } from '@material-ui/core';
 
 // styles
-import useStyles from "./styles";
-
+import useStyles from "../../../components/styles";
 
 export default function CourseForm(props) {
-    const classes = useStyles(),
+    const style = useStyles(),
         [id, setId] = useState(props.data?.id),
         [name, setName] = useState(props.data?.name),
         [description, setDescription] = useState(props.data?.description),
-
         subimitClick = (event) => {
             props.submitFuntion(props.isUpdate, { id, name, description });
             event.preventDefault();
         };
     return (
-        <FormControl className={classes.form}>
+        <FormControl className={style.form}>
             <legend>{props.title}</legend>
             <div> 
             <TextField
@@ -38,7 +36,7 @@ export default function CourseForm(props) {
                 value={description}
                 onChange={e => setDescription(e.target.value)}
             />
-            </div> 
+            </div>
             <Button onClick={subimitClick}>Submit</Button>
         </FormControl >
     );

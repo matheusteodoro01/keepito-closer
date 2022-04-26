@@ -1,7 +1,17 @@
 import { makeStyles } from "@material-ui/styles";
 
 export default makeStyles(theme => ({
-    boxModalForm: {
+    boxModalCourseForm: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 1200,
+        background: '#FFFFFF',
+        'border-radius': '25px',
+        padding: 5
+    },
+    boxModalClassesForm: {
         position: 'absolute',
         top: '50%',
         left: '50%',
@@ -19,11 +29,15 @@ export default makeStyles(theme => ({
         padding: theme.spacing(4),
 
         '& .MuiTextField-root': {
-            margin: theme.spacing(1),
+            margin: theme.spacing(4),
             width: '300px',
         },
         '& .MuiButtonBase-root': {
             margin: theme.spacing(2),
+        },
+        '& .MuiGrid-root': {
+            margin: theme.spacing(1),
+            width: '100%',
         },
     },
 }));
