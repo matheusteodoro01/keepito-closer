@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Grid, Modal, Box } from "@material-ui/core";
 import MUIDataTable from "mui-datatables";
 
+// api
+import api from '../../../services/api'
+
 // components
 import CustomCrudToolBar from "../../../components/CustomCrudToolBar";
 import ClassesForm from "./ClassesForm"
@@ -50,6 +53,32 @@ export default function Classes(props) {
                 setClasses(classesAux);
                 setSelectionModel(dataForm);
             }
+
+            if (!isUpdate) {
+                async function addCourse() {
+                  await api.post(api.version + 'classes', dataForm)
+                    .then((response) => {
+                      handleCloseForm()
+                    //   updateFunction(1)
+                    })
+                    .catch(function (error) {
+                      console.log(error);
+                    });
+                }
+                addCourse();
+              } else {
+                let params = { name: dataForm.name, description: dataForm.description };
+                async function updateCourse() {
+                  await api.put(api.version + 'courses/' + dataForm.id, params)
+                    .then((response) => {
+                    })
+                    .catch(function (error) {
+                      console.log(error);
+                    });
+                }
+                updateCourse();
+              }
+
             handleCloseForm();
         },
         deleteFunction = function () {

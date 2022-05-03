@@ -51,13 +51,27 @@ export default function Courses() {
       setDataForm(null)
       handleOpenForm()
     },
+    updateFunction = function (id) {
+      id = id ?? selectionModel.id;
+      async function fetchData() {
+        await api.get(api.version + 'courses/' + id, {})
+          .then((response) => {
+            setTitleForm('Update the ' + context)
+            setIsUpdate(true);
+            setDataForm(response.data)
+            handleOpenForm()
+          })
+      }
+      fetchData();
+    },
     submitFuntion = function (isUpdate, dataForm) {
       if (!isUpdate) {
         async function addCourse() {
           await api.post(api.version + 'courses', dataForm)
             .then((response) => {
               loadCourses();
-              handleCloseForm();
+              handleCloseForm()
+              updateFunction(1)
             })
             .catch(function (error) {
               console.log(error);
@@ -70,7 +84,6 @@ export default function Courses() {
           await api.put(api.version + 'courses/' + dataForm.id, params)
             .then((response) => {
               loadCourses();
-              handleCloseForm();
             })
             .catch(function (error) {
               console.log(error);
@@ -80,19 +93,6 @@ export default function Courses() {
       }
     },
     deleteFunction = function () {
-    },
-    updateFunction = function () {
-      let id = selectionModel.id;
-      async function fetchData() {
-        await api.get(api.version + 'courses/' + id, {})
-          .then((response) => {
-            setTitleForm('Update the ' + context)
-            setIsUpdate(true);
-            setDataForm(response.data)
-            handleOpenForm()
-          })
-      }
-      fetchData();
     },
     handleCustomToolbar = () => {
       return (
