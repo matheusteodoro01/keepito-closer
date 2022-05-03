@@ -51,6 +51,10 @@ export default function Courses() {
       setDataForm(null)
       handleOpenForm()
     },
+    reloadAll = function(idCourse){
+      handleCloseForm()
+      updateFunction(idCourse)
+    },
     updateFunction = function (id) {
       id = id ?? selectionModel.id;
       async function fetchData() {
@@ -70,8 +74,7 @@ export default function Courses() {
           await api.post(api.version + 'courses', dataForm)
             .then((response) => {
               loadCourses();
-              handleCloseForm()
-              updateFunction(1)
+              reloadAll(1)
             })
             .catch(function (error) {
               console.log(error);
@@ -165,7 +168,12 @@ export default function Courses() {
         onClose={handleCloseForm}
       >
         <Box className={classes.boxModalCourseForm}>
-          <CourseForm title={titleForm} submitFuntion={submitFuntion} data={dataForm} isUpdate={isUpdate} />
+          <CourseForm 
+          title={titleForm} 
+          submitFuntion={submitFuntion} 
+          data={dataForm} 
+          isUpdate={isUpdate} 
+          reloadAll={reloadAll}/>
         </Box>
       </Modal>
       <Grid item xs={12}>
