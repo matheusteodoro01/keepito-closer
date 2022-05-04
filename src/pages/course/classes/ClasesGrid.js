@@ -42,15 +42,19 @@ export default function Classes(props) {
             handleOpenForm()
         },
         submitFuntion = function (isUpdate, dataForm) {
+            // let classesAux = classes;
+            // classesAux.push(dataForm); ASSIM FUNCIONA
+            // setClasses(classesAux);
+            // handleCloseForm()
             if (!isUpdate) {
                 async function addCourse() {
                     dataForm.courseId = props.courseId;
                     await api.post(api.version + 'classes', dataForm)
                         .then((response) => {
-                            handleCloseForm()
                             let classesAux = classes;
-                            classesAux.push(dataForm);
-                            setClasses(classesAux);
+                            classesAux.push(response.data); 
+                            setClasses(classesAux);      // NÂO FUNCIONA
+                            handleCloseForm()
                         })
                         .catch(function (error) {
                             console.log(error);
@@ -62,12 +66,12 @@ export default function Classes(props) {
                 async function updateCourse() {
                     await api.put(api.version + 'classes/' + dataForm.id, params)
                         .then((response) => {
-                            handleCloseForm();
                             let classesAux = classes,
                                 index = classesAux.findIndex(element => element.id == dataForm.id);
                             classesAux[index] = dataForm;
                             setClasses(classesAux);
                             setSelectionModel(dataForm);
+                            handleCloseForm();
                         })
                         .catch(function (error) {
                             console.log(error);
