@@ -74,7 +74,7 @@ export default function Courses() {
           await api.post(api.version + 'courses', dataForm)
             .then((response) => {
               loadCourses();
-              reloadAll(1)
+              reloadAll(response.data.id)
             })
             .catch(function (error) {
               console.log(error);
@@ -87,6 +87,7 @@ export default function Courses() {
           await api.put(api.version + 'courses/' + dataForm.id, params)
             .then((response) => {
               loadCourses();
+              reloadAll(dataForm.id)
             })
             .catch(function (error) {
               console.log(error);

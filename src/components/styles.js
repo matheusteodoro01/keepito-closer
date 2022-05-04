@@ -6,10 +6,13 @@ export default makeStyles(theme => ({
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 1200,
+        width: 1150,
         background: '#FFFFFF',
         'border-radius': '25px',
-        padding: 5
+        padding: 5,
+        'max-height': '95%',
+        overflow: "hidden",
+        overflowY: "scroll" // added scroll
     },
     boxModalClassesForm: {
         position: 'absolute',
