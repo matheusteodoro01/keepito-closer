@@ -42,18 +42,18 @@ export default function Classes(props) {
             handleOpenForm()
         },
         submitFuntion = function (isUpdate, dataForm) {
-            // let classesAux = classes;
-            // classesAux.push(dataForm); ASSIM FUNCIONA
-            // setClasses(classesAux);
-            // handleCloseForm()
+            let addInGrid = (data) => {
+                let classesAux = classes;
+                classesAux.push(data);
+                setClasses([]);
+                setClasses(classesAux);
+            }
             if (!isUpdate) {
                 async function addCourse() {
                     dataForm.courseId = props.courseId;
                     await api.post(api.version + 'classes', dataForm)
                         .then((response) => {
-                            let classesAux = classes;
-                            classesAux.push(response.data); 
-                            setClasses(classesAux);      // NÂO FUNCIONA
+                            addInGrid(response.data); 
                             handleCloseForm()
                         })
                         .catch(function (error) {

@@ -49,11 +49,11 @@ class CustomCrudToolBar extends React.Component {
             <EditIcon className={classes.Edit} />
           </IconButton>
         </Tooltip>
-        <Tooltip title={"Delete a " + this.tableContext()}>
+        {/* <Tooltip title={"Delete a " + this.tableContext()}>
           <IconButton className={classes.iconButton} onClick={this.deleteFunction}>
             <DeleteForeverIcon className={classes.DeleteForever} />
           </IconButton>
-        </Tooltip>
+        </Tooltip> */}
       </React.Fragment>
     );
   }
