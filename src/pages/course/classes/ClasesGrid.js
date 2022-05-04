@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Grid, Modal, Box } from "@material-ui/core";
 import MUIDataTable from "mui-datatables";
 
+// api
+import api from '../../../services/api'
+
 // components
 import CustomCrudToolBar from "../../../components/CustomCrudToolBar";
 import ClassesForm from "./ClassesForm"
@@ -16,7 +19,7 @@ export default function Classes(props) {
         [titleForm, setTitleForm] = useState(''),
         [isUpdate, setIsUpdate] = useState(false),
         [dataForm, setDataForm] = useState({}),
-        [classes, setClasses] = useState(props?.classes),
+        [classes, setClasses] = useState(props ?.classes),
         [selectionModel, setSelectionModel] = React.useState([]),
         [configsGrid, setConfigsGrid] = React.useState({
             params: {
@@ -40,24 +43,47 @@ export default function Classes(props) {
         },
         submitFuntion = function (isUpdate, dataForm) {
             if (!isUpdate) {
-                let classesAux = classes;
-                classesAux.push(dataForm);
-                setClasses(classesAux);
+                async function addCourse() {
+                    dataForm.courseId = props.courseId;
+                    await api.post(api.version + 'classes', dataForm)
+                        .then((response) => {
+                            handleCloseForm()
+                            let classesAux = classes;
+                            classesAux.push(dataForm);
+                            setClasses(classesAux);
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }
+                addCourse();
             } else {
-                let classesAux = classes,
-                index = classesAux.findIndex( element => element.id == dataForm.id);
-                classesAux[index] = dataForm;
-                setClasses(classesAux);
-                setSelectionModel(dataForm);
+                let params = { name: dataForm.name, description: dataForm.description, courseId: props.courseId };
+                async function updateCourse() {
+                    await api.put(api.version + 'classes/' + dataForm.id, params)
+                        .then((response) => {
+                            handleCloseForm();
+                            let classesAux = classes,
+                                index = classesAux.findIndex(element => element.id == dataForm.id);
+                            classesAux[index] = dataForm;
+                            setClasses(classesAux);
+                            setSelectionModel(dataForm);
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }
+                updateCourse();
             }
+
             handleCloseForm();
         },
         deleteFunction = function () {
-            let classesAux = classes,
-            index = classesAux.findIndex( element => element.id == setSelectionModel.id);
-            classesAux.splice(index, 1);
-            setSelectionModel(dataForm);
-            setClasses(classesAux);
+            // let classesAux = classes,
+            // index = classesAux.findIndex( element => element.id == setSelectionModel.id);
+            // classesAux.splice(index, 1);
+            // setSelectionModel(dataForm);
+            // setClasses(classesAux);
         },
         updateFunction = function () {
             setTitleForm('Update the ' + context);

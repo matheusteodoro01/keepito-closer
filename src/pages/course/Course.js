@@ -51,13 +51,30 @@ export default function Courses() {
       setDataForm(null)
       handleOpenForm()
     },
+    reloadAll = function(idCourse){
+      handleCloseForm()
+      updateFunction(idCourse)
+    },
+    updateFunction = function (id) {
+      id = id ?? selectionModel.id;
+      async function fetchData() {
+        await api.get(api.version + 'courses/' + id, {})
+          .then((response) => {
+            setTitleForm('Update the ' + context)
+            setIsUpdate(true);
+            setDataForm(response.data)
+            handleOpenForm()
+          })
+      }
+      fetchData();
+    },
     submitFuntion = function (isUpdate, dataForm) {
       if (!isUpdate) {
         async function addCourse() {
           await api.post(api.version + 'courses', dataForm)
             .then((response) => {
               loadCourses();
-              handleCloseForm();
+              reloadAll(response.data.id)
             })
             .catch(function (error) {
               console.log(error);
@@ -70,7 +87,7 @@ export default function Courses() {
           await api.put(api.version + 'courses/' + dataForm.id, params)
             .then((response) => {
               loadCourses();
-              handleCloseForm();
+              reloadAll(dataForm.id)
             })
             .catch(function (error) {
               console.log(error);
@@ -80,19 +97,6 @@ export default function Courses() {
       }
     },
     deleteFunction = function () {
-    },
-    updateFunction = function () {
-      let id = selectionModel.id;
-      async function fetchData() {
-        await api.get(api.version + 'courses/' + id, {})
-          .then((response) => {
-            setTitleForm('Update the ' + context)
-            setIsUpdate(true);
-            setDataForm(response.data)
-            handleOpenForm()
-          })
-      }
-      fetchData();
     },
     handleCustomToolbar = () => {
       return (
@@ -165,7 +169,12 @@ export default function Courses() {
         onClose={handleCloseForm}
       >
         <Box className={classes.boxModalCourseForm}>
-          <CourseForm title={titleForm} submitFuntion={submitFuntion} data={dataForm} isUpdate={isUpdate} />
+          <CourseForm 
+          title={titleForm} 
+          submitFuntion={submitFuntion} 
+          data={dataForm} 
+          isUpdate={isUpdate} 
+          reloadAll={reloadAll}/>
         </Box>
       </Modal>
       <Grid item xs={12}>

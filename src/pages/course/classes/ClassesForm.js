@@ -9,8 +9,9 @@ export default function CourseForm(props) {
         [id, setId] = useState(props.data?.id),
         [name, setName] = useState(props.data?.name),
         [description, setDescription] = useState(props.data?.description),
+        [courseId, setcourseId] = useState(props.data?.courseId),
         subimitClick = (event) => {
-            props.submitFuntion(props.isUpdate, { id, name, description });
+            props.submitFuntion(props.isUpdate, { id, name, description, courseId });
             event.preventDefault();
         };
     return (
