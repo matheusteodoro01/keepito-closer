@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { FormControl, TextField, Button, Collapse, Icon } from '@material-ui/core';
-import DoneIcon from "@material-ui/icons/Done";
+import { FormControl, TextField, Collapse } from '@material-ui/core';
 
 // styles
 import useStyles from "../../components/styles";
 
 // components
 import Classesgrid from "./classes/ClasesGrid";
+import SubmitButton from "../../components/SubmitButton";
 
 export default function CourseForm(props) {
     const style = useStyles(),
@@ -45,17 +45,7 @@ export default function CourseForm(props) {
             <Collapse in={props.isUpdate} style={{ width: '100%' }}>
                 <Classesgrid classes={classes} reloadAll={props.reloadAll} courseId={id} />
             </Collapse>
-
-            <Button
-                onClick={subimitClick}
-                variant="outlined"
-                color="primary"
-                className={classes.button}
-                endIcon={<DoneIcon/>}
-                >
-
-                Submit
-            </Button>
+            <SubmitButton subimit={subimitClick}/>
         </FormControl >
     );
 }

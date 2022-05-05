@@ -4,6 +4,9 @@ import { FormControl, TextField, Button } from '@material-ui/core';
 // styles
 import useStyles from "../../../components/styles";
 
+// components
+import SubmitButton from "../../../components/SubmitButton";
+
 export default function CourseForm(props) {
     const style = useStyles(),
         [id, setId] = useState(props.data?.id),
@@ -38,7 +41,7 @@ export default function CourseForm(props) {
                 onChange={e => setDescription(e.target.value)}
             />
             </div>
-            <Button onClick={subimitClick}>Submit</Button>
+            <SubmitButton subimit={subimitClick}/>
         </FormControl >
     );
 }

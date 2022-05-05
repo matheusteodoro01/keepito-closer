@@ -12,7 +12,8 @@ export default makeStyles(theme => ({
         padding: 5,
         'max-height': '95%',
         overflow: "hidden",
-        overflowY: "scroll" // added scroll
+        overflowY: "scroll", // added scroll
+        'background-color': 'rgba(255,255,255,0.87)'
     },
     boxModalClassesForm: {
         position: 'absolute',
@@ -22,7 +23,8 @@ export default makeStyles(theme => ({
         width: 400,
         background: '#FFFFFF',
         'border-radius': '25px',
-        padding: 5
+        padding: 5,
+        'background-color': 'rgba(255,255,255,0.87)'
     },
     form: {
         display: 'flex',
