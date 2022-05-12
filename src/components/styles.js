@@ -20,7 +20,7 @@ export default makeStyles(theme => ({
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 400,
+        width: 465,
         background: '#FFFFFF',
         'border-radius': '25px',
         padding: 5,
