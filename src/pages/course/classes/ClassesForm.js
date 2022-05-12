@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { FormControl, TextField, Button } from '@material-ui/core';
+import { FormControl, TextField } from '@material-ui/core';
 
 // styles
 import useStyles from "../../../components/styles";
 
 // components
 import SubmitButton from "../../../components/SubmitButton";
+import FileButtons from "../../../components/FileButtons";
 
 export default function CourseForm(props) {
     const style = useStyles(),
@@ -41,6 +42,7 @@ export default function CourseForm(props) {
                 onChange={e => setDescription(e.target.value)}
             />
             </div>
+            <FileButtons/>
             <SubmitButton subimit={subimitClick}/>
         </FormControl >
     );
