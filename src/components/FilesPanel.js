@@ -3,7 +3,7 @@ import { Button, TextField } from '@material-ui/core';
 import PageviewIcon from "@material-ui/icons/Pageview";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 
-export default function FileButtons(props) {
+export default function FilesPanel(props) {
     const [disableViewFile, setDisableViewFile] = useState(true),
         [file, setFile] = useState(null),
         [fileName, setFileName] = useState(null),
@@ -11,11 +11,12 @@ export default function FileButtons(props) {
 
     let uploadFile = event => {
         hiddenFileInput.current.click();
-    }, handleChange = event => {
+    }, changeFile = event => {
         const fileUploaded = event.target.files[0];
         setFileName(fileUploaded.name);
         setFile(fileUploaded);
         setDisableViewFile(false);
+        props.uploadFile(fileUploaded);
     }, openFile = () => {
         window.open(file);
     };
@@ -25,7 +26,7 @@ export default function FileButtons(props) {
             <input
                 type="file"
                 ref={hiddenFileInput}
-                onChange={handleChange}
+                onChange={changeFile}
                 accept="application/pdf"
                 style={{ display: 'none' }} />
 

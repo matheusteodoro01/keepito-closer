@@ -2,7 +2,7 @@ import axios from "axios";
 
 const token = localStorage.getItem("Authorization");
 const api = axios.create({
-  baseURL: "https://jornada-back-production.up.railway.app",
+  baseURL: "http://45.79.204.34:8080",
 });
 
 if (token) {
