@@ -53,7 +53,7 @@ export default function Classes(props) {
                     dataForm.courseId = props.courseId;
                     await api.post(api.version + 'classes', dataForm)
                         .then((response) => {
-                            addInGrid(response.data); 
+                            addInGrid(response.data);
                             handleCloseForm()
                         })
                         .catch(function (error) {
@@ -89,9 +89,20 @@ export default function Classes(props) {
             // setSelectionModel(dataForm);
             // setClasses(classesAux);
         },
+        getFiles = () => {
+            async function fetchData() {
+                await api.get(api.version + 'files', selectionModel.id)
+                    .then((response) => {
+
+                        return response.data.content
+                    })
+            }
+            return fetchData();
+        },
         updateFunction = function () {
             setTitleForm('Update the ' + context);
             setIsUpdate(true);
+            selectionModel.files = getFiles();
             setDataForm(selectionModel);
             handleOpenForm();
         },
