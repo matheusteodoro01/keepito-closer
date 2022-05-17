@@ -1,25 +1,24 @@
-import React, { useState } from 'react';
-import { Button, TextField } from '@material-ui/core';
-import PageviewIcon from "@material-ui/icons/Pageview";
+import React, { useState, useEffect } from 'react';
+import { Button, Grid } from '@material-ui/core';
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 
 export default function FilesPanel(props) {
-    const [disableViewFile, setDisableViewFile] = useState(true),
-        [file, setFile] = useState(null),
-        [fileName, setFileName] = useState(null),
+    const [files, setFiles] = useState(null),
         hiddenFileInput = React.useRef(null);
 
-    let uploadFile = event => {
+    let uploadFileButton = event => {
         hiddenFileInput.current.click();
     }, changeFile = event => {
         const fileUploaded = event.target.files[0];
-        setFileName(fileUploaded.name);
-        setFile(fileUploaded);
-        setDisableViewFile(false);
         props.uploadFile(fileUploaded);
-    }, openFile = () => {
-        window.open(file);
+    }, getFiles = () => {
+        let files = props.getFiles();
+        setFiles(files);
     };
+
+    useEffect(() => {
+        getFiles();
+    }, []);
 
     return (
         <div>
@@ -30,31 +29,38 @@ export default function FilesPanel(props) {
                 accept="application/pdf"
                 style={{ display: 'none' }} />
 
-            <TextField
-                required
-                id="outlined-required"
-                label="File"
-                name="fielName"
-                value={fileName}
-                InputProps={{
-                    readOnly: true
-                }}
-            />
             <Button
-                onClick={uploadFile}
+                onClick={uploadFileButton}
                 variant="outlined"
                 color="primary"
                 endIcon={<AttachFileIcon />}>
                 Upload a file
             </Button>
-            <Button
-                onClick={openFile}
-                variant="outlined"
-                color="primary"
-                endIcon={<PageviewIcon />}
-                disabled={disableViewFile}>
-                View the file
-            </Button>
+            <div>
+                <Grid item xs={4}>
+                    {
+                        files.map((file) => {
+                            let lenthName = file.name.lenth,
+                                qteChar = lenthName - 20,
+                                nameButton = "",
+                                clckButton = () => {
+
+                                };
+                            if (qteChar > 0)
+                                nameButton = file.name.slice(-qteChar) + "....pdf";
+                            else
+                                nameButton = file.name + ".pdf";
+                            <Button
+                                onClick={clckButton}
+                                variant="text"
+                                color="primary"
+                                endIcon={<AttachFileIcon />}>
+                                {nameButton}
+                            </Button>
+                        })
+                    }
+                </Grid>
+            </div>
         </div>
     );
 }

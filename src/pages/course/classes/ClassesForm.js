@@ -33,6 +33,14 @@ export default function CourseForm(props) {
             //         });
             // }
             // addCourse();
+        }, getFiles = () => {
+            async function loadFiles() {
+                await api.get(api.version + 'files', { courseId: 1 })
+                    .then((response) => {
+                        return response.data.content
+                    })
+            }
+            return loadFiles();
         };
 
     return (
@@ -59,8 +67,8 @@ export default function CourseForm(props) {
                     onChange={e => setDescription(e.target.value)}
                 />
             </div>
-            <FilesPanel />
-            <SubmitButton subimit={subimitClick} uploadFile={uploadFile} />
+            <FilesPanel uploadFile={uploadFile} getFiles={getFiles} />
+            <SubmitButton subimit={subimitClick} />
         </FormControl >
     );
 }
