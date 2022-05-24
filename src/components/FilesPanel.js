@@ -10,9 +10,9 @@ export default function FilesPanel(props) {
         hiddenFileInput.current.click();
     }, changeFile = event => {
         const fileUploaded = event.target.files[0];
-        props.uploadFile(fileUploaded);
-    }, getFiles = () => {
-        let files = props.getFiles();
+        props.uploadFile(fileUploaded, getFiles);
+    }, getFiles = async () => {
+        let files = await props.getFiles() ?? [];
         setFiles(files);
     };
 
@@ -37,9 +37,9 @@ export default function FilesPanel(props) {
                 Upload a file
             </Button>
             <div>
-                <Grid item xs={4}>
+                {/* <Grid item xs={4}>
                     {
-                        files.map((file) => {
+                        files?.map((file) => {
                             let lenthName = file.name.lenth,
                                 qteChar = lenthName - 20,
                                 nameButton = "",
@@ -59,7 +59,7 @@ export default function FilesPanel(props) {
                             </Button>
                         })
                     }
-                </Grid>
+                </Grid> */}
             </div>
         </div>
     );

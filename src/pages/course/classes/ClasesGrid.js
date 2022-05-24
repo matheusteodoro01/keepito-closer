@@ -21,6 +21,7 @@ export default function Classes(props) {
         [dataForm, setDataForm] = useState({}),
         [classes, setClasses] = useState(props ?.classes),
         [selectionModel, setSelectionModel] = React.useState([]),
+        [courseId, setCourseId] = React.useState(props.courseId),
         [configsGrid, setConfigsGrid] = React.useState({
             params: {
                 page: 0,
@@ -89,20 +90,9 @@ export default function Classes(props) {
             // setSelectionModel(dataForm);
             // setClasses(classesAux);
         },
-        getFiles = () => {
-            async function fetchData() {
-                await api.get(api.version + 'files', selectionModel.id)
-                    .then((response) => {
-
-                        return response.data.content
-                    })
-            }
-            return fetchData();
-        },
         updateFunction = function () {
             setTitleForm('Update the ' + context);
             setIsUpdate(true);
-            selectionModel.files = getFiles();
             setDataForm(selectionModel);
             handleOpenForm();
         },
@@ -169,7 +159,8 @@ export default function Classes(props) {
                 onClose={handleCloseForm}
             >
                 <Box className={classesNames.boxModalClassesForm}>
-                    <ClassesForm title={titleForm} submitFuntion={submitFuntion} data={dataForm} isUpdate={isUpdate} />
+                    <ClassesForm title={titleForm} submitFuntion={submitFuntion} 
+                    data={dataForm} isUpdate={isUpdate} />
                 </Box>
             </Modal>
             <Grid item xs={12}>
