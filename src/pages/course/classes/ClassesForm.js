@@ -16,26 +16,25 @@ export default function CourseForm(props) {
         [id, setId] = useState(props.data ?.id),
         [name, setName] = useState(props.data ?.name),
         [description, setDescription] = useState(props.data ?.description),
-        [courseId, setcourseId] = useState(props.data ?.courseId),
+        [classId, setClassId] = useState(props.data ?.id),
         subimitClick = (event) => {
-            props.submitFuntion(props.isUpdate, { id, name, description, courseId });
+            props.submitFuntion(props.isUpdate, { id, name, description, classId });
             event.preventDefault();
         },
-        uploadFile = file => {
-            // async function addCourse() {
-            //     await api.post(api.version + 'courses', dataForm)
-            //         .then((response) => {
-            //             loadCourses();
-            //             reloadAll(response.data.id)
-            //         })
-            //         .catch(function (error) {
-            //             console.log(error);
-            //         });
-            // }
-            // addCourse();
+        uploadFile = (file, promise) => {
+            async function addCourse() {
+                await api.post(api.version + 'classes/files?classId=' + classId, { file: file.name })
+                    .then((response) => {
+                        promise();
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+            addCourse();
         }, getFiles = () => {
             async function loadFiles() {
-                await api.get(api.version + 'files', { courseId: 1 })
+                await api.get(api.version + 'classes/files?classId=' + classId, {})
                     .then((response) => {
                         return response.data.content
                     })
