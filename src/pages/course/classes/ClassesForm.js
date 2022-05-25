@@ -22,8 +22,10 @@ export default function CourseForm(props) {
             event.preventDefault();
         },
         uploadFile = (file, promise) => {
-            async function addCourse() {
-                await api.post(api.version + 'classes/files?classId=' + classId, { file: file.name })
+
+
+            async function addFile(data) {
+                await api.post(api.version + 'classes/files?classId=' + classId, { file: data })
                     .then((response) => {
                         promise();
                     })
@@ -31,7 +33,24 @@ export default function CourseForm(props) {
                         console.log(error);
                     });
             }
-            addCourse();
+            const onFileUpload = () => {
+                // Create an object of formData 
+                const formData = new FormData(),
+                    userfile = file;
+
+                formData.append(userfile.name, userfile);
+                // Update the formData object 
+                // formData.append(
+                //     userfile.name,
+                //     userfile,
+                //     userfile.name
+                // );
+
+                // Request made to the backend api 
+                // Send formData object 
+                addFile(formData);
+            };
+            onFileUpload();
         }, getFiles = () => {
             async function loadFiles() {
                 await api.get(api.version + 'classes/files?classId=' + classId, {})
