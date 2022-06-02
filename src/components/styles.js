@@ -20,11 +20,14 @@ export default makeStyles(theme => ({
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 465,
+        width: 500,
         background: '#FFFFFF',
         'border-radius': '25px',
         padding: 5,
-        'background-color': 'rgba(255,255,255,0.87)'
+        'background-color': 'rgba(255,255,255,0.87)',
+        'max-height': '95%',
+        overflow: "hidden",
+        overflowY: "scroll" // added scroll
     },
     form: {
         display: 'flex',
@@ -38,7 +41,7 @@ export default makeStyles(theme => ({
             width: '300px',
         },
         '& .MuiButtonBase-root': {
-            margin: theme.spacing(2),
+            margin: theme.spacing(1),
         },
         '& .MuiGrid-root': {
             margin: theme.spacing(1),

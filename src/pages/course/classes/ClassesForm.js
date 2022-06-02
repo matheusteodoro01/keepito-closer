@@ -22,40 +22,20 @@ export default function CourseForm(props) {
             event.preventDefault();
         },
         uploadFile = (file, promise) => {
-
-
-            async function addFile(data) {
-                await api.post(api.version + 'classes/files?classId=' + classId, { file: data })
+            const sendFile = async () => {
+                const dataForm = new FormData();
+                dataForm.append('file', file);
+                const res = await api.post(api.version + 'classes/uploadFile?classId=' + classId, dataForm)
                     .then((response) => {
-                        promise();
+                        promise()
                     })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            }
-            const onFileUpload = () => {
-                // Create an object of formData 
-                const formData = new FormData(),
-                    userfile = file;
-
-                formData.append(userfile.name, userfile);
-                // Update the formData object 
-                // formData.append(
-                //     userfile.name,
-                //     userfile,
-                //     userfile.name
-                // );
-
-                // Request made to the backend api 
-                // Send formData object 
-                addFile(formData);
             };
-            onFileUpload();
+            sendFile();
         }, getFiles = () => {
             async function loadFiles() {
-                await api.get(api.version + 'classes/files?classId=' + classId, {})
+                return await api.get(api.version + 'classes/files?classId=' + classId, {})
                     .then((response) => {
-                        return response.data.content
+                        return response.data
                     })
             }
             return loadFiles();
@@ -85,7 +65,7 @@ export default function CourseForm(props) {
                     onChange={e => setDescription(e.target.value)}
                 />
             </div>
-            <FilesPanel uploadFile={uploadFile} getFiles={getFiles} />
+            { !props.isUpdate ? '': <FilesPanel uploadFile={uploadFile} getFiles={getFiles}/>}
             <SubmitButton subimit={subimitClick} />
         </FormControl >
     );
