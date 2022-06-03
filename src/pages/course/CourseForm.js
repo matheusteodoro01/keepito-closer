@@ -25,7 +25,7 @@ export default function CourseForm(props) {
                 <TextField
                     required
                     id="outlined-required"
-                    label="Name"
+                    label="Nome"
                     name="name"
                     value={name}
                     onChange={e => setName(e.target.value)}
@@ -36,7 +36,7 @@ export default function CourseForm(props) {
                 <TextField
                     required
                     id="outlined-required"
-                    label="Description"
+                    label="Descrição"
                     name="description"
                     value={description}
                     onChange={e => setDescription(e.target.value)}

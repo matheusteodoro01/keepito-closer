@@ -11663,7 +11663,7 @@ export default function IconsPage () {
             >
               <Icons.Update />
               <Typography className={classes.materialIconText}>
-                Update
+                Atualizar
               </Typography>
             </Grid>
             <Grid

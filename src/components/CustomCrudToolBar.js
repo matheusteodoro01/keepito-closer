@@ -39,12 +39,12 @@ class CustomCrudToolBar extends React.Component {
 
     return (
       <React.Fragment>
-        <Tooltip title={"Add a new " + this.tableContext()}>
+        <Tooltip title={"Adicionar " + this.tableContext()}>
           <IconButton className={classes.iconButton} onClick={this.insertFunction}>
             <AddIcon className={classes.AddIcon} />
           </IconButton>
         </Tooltip>
-        <Tooltip title={"Update a " + this.tableContext()}>
+        <Tooltip title={"Atualizar " + this.tableContext()}>
           <IconButton className={classes.iconButton} onClick={this.updateFunction}>
             <EditIcon className={classes.Edit} />
           </IconButton>

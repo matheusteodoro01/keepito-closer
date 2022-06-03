@@ -37,7 +37,7 @@ export default function FilesPanel(props) {
                     variant="outlined"
                     color="primary"
                     endIcon={<AttachFileIcon />}>
-                    Upload a file
+                    Enviar
             </Button>
             </div>
             <div>

@@ -14,7 +14,7 @@ import useStyles from "../../../components/styles";
 
 export default function Classes(props) {
     let classesNames = useStyles();
-    const context = "class",
+    const context = "aula",
         [showForm, setShowForm] = useState(false),
         [titleForm, setTitleForm] = useState(''),
         [isUpdate, setIsUpdate] = useState(false),
@@ -37,7 +37,7 @@ export default function Classes(props) {
         handleOpenForm = () => setShowForm(true),
         handleCloseForm = () => setShowForm(false),
         insertFunction = function () {
-            setTitleForm('Insert a new ' + context)
+            setTitleForm('Adicionar nova ' + context)
             setIsUpdate(false);
             setDataForm(null)
             handleOpenForm()
@@ -91,7 +91,7 @@ export default function Classes(props) {
             // setClasses(classesAux);
         },
         updateFunction = function () {
-            setTitleForm('Update the ' + context);
+            setTitleForm('Atualizar ' + context);
             setIsUpdate(true);
             setDataForm(selectionModel);
             handleOpenForm();
@@ -137,14 +137,14 @@ export default function Classes(props) {
                 }
             }, {
                 name: "name",
-                label: "Name",
+                label: "Nome",
                 options: {
                     filter: true,
                     sort: true,
                 }
             }, {
                 name: "description",
-                label: "Description",
+                label: "Descrição",
                 options: {
                     filter: true,
                     sort: true,

@@ -15,7 +15,7 @@ import useStyles from "../../components/styles";
 
 export default function Courses() {
   let classes = useStyles();
-  const context = "course",
+  const context = "curso",
     [showForm, setShowForm] = useState(false),
     [titleForm, setTitleForm] = useState(''),
     [isUpdate, setIsUpdate] = useState(false),
@@ -46,7 +46,7 @@ export default function Courses() {
     handleOpenForm = () => setShowForm(true),
     handleCloseForm = () => setShowForm(false),
     insertFunction = function () {
-      setTitleForm('Insert a new ' + context)
+      setTitleForm('Cadastrar novo ' + context)
       setIsUpdate(false);
       setDataForm(null)
       handleOpenForm()
@@ -60,7 +60,7 @@ export default function Courses() {
       async function fetchData() {
         await api.get(api.version + 'courses/' + id, {})
           .then((response) => {
-            setTitleForm('Update the ' + context)
+            setTitleForm('Atualizar ' + context)
             setIsUpdate(true);
             setDataForm(response.data)
             handleOpenForm()
@@ -141,14 +141,14 @@ export default function Courses() {
         }
       }, {
         name: "name",
-        label: "Name",
+        label: "Nome",
         options: {
           filter: true,
           sort: true,
         }
       }, {
         name: "description",
-        label: "Description",
+        label: "Descrição",
         options: {
           filter: true,
           sort: true,
@@ -162,7 +162,7 @@ export default function Courses() {
 
   return (
     <>
-      <PageTitle title='My courses' />
+      <PageTitle title='Meus Cursos' />
 
       <Modal
         open={showForm}
