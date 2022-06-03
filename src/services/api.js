@@ -9,4 +9,5 @@ if (token) {
   api.defaults.headers.authorization = `${token}`
 }
 
+api.version = 'v1/'
 export default api;
