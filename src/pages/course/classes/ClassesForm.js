@@ -65,7 +65,12 @@ export default function CourseForm(props) {
                     onChange={e => setDescription(e.target.value)}
                 />
             </div>
-            { !props.isUpdate ? '': <FilesPanel uploadFile={uploadFile} getFiles={getFiles}/>}
+            { !props.isUpdate ? '': 
+            <FilesPanel 
+            uploadFile={uploadFile} 
+            getFiles={getFiles} 
+            classId={classId}
+            courseId={id}/>}
             <SubmitButton subimit={subimitClick} />
         </FormControl >
     );
