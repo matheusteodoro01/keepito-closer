@@ -9,7 +9,7 @@ export default function SubmitButton(props) {
             variant="outlined"
             color="primary"
             endIcon={<DoneIcon />}>
-            Submit
+            Salvar
         </Button>
     );
 }

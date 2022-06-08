@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Grid } from '@material-ui/core';
 import AttachFileIcon from "@material-ui/icons/AttachFile";
-import FileCopyIcon from "@material-ui/icons/FileCopy";
-import { green } from '@material-ui/core/colors';
+import { Typography } from "../components/Wrappers/Wrappers";
+import { InsertDriveFile } from "@material-ui/icons";
+import {  makeStyles } from "@material-ui/styles";
+
+var useStyles = makeStyles(theme => ({
+    badge: {
+      fontWeight: 600,
+      height: 16,
+      minWidth: 16,
+    },
+  }));
 
 export default function FilesPanel(props) {
+    var classes = useStyles();
     const [files, setFiles] = useState([]),
         hiddenFileInput = React.useRef(null);
 
@@ -37,7 +47,7 @@ export default function FilesPanel(props) {
                     variant="outlined"
                     color="primary"
                     endIcon={<AttachFileIcon />}>
-                    Upload a file
+                    Enviar
             </Button>
             </div>
             <div>
@@ -55,15 +65,13 @@ export default function FilesPanel(props) {
                                 nameButton = file;
 
                             return (
-                                <Grid item xs={4} key={file} style={{ border: green }} >
-                                    <Button
-                                        onClick={clckButton}
-                                        variant="outlined"
-                                        color="primary"
-                                        endIcon={<FileCopyIcon />}>
-                                        {nameButton}
-                                    </Button>
-                                </Grid>
+                                <Typography key={file} variant="href" color="primary" className={classes.textRow}>
+                                <InsertDriveFile
+                                  key={file}
+                                  href={`${{ file }}`}
+                                />
+                               <a href={`https://jornada-back.s3.amazonaws.com/classes/classId-${props.classId}/${file}`} target="blank">{file}</a> 
+                              </Typography>
                             )
                         })
                     }
