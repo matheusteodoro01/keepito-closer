@@ -18,7 +18,7 @@ import { decoder } from "../../services/decoder";
 
 export default function Courses() {
   let classes = useStyles();
-  const context = "course",
+  const context = "curso",
     token = localStorage.getItem("keepitoAuthorization"),
     [userId, setUserId] = useState(undefined),
     [showForm, setShowForm] = useState(false),
