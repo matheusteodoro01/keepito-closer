@@ -13,28 +13,33 @@ import CourseForm from "./CourseForm";
 // styles
 import useStyles from "../../components/styles";
 
+// // services 
+import { decoder } from "../../services/decoder";
+
 export default function Courses() {
   let classes = useStyles();
   const context = "course",
+    token = localStorage.getItem("keepitoAuthorization"),
+    [userId, setUserId] = useState(undefined),
     [showForm, setShowForm] = useState(false),
     [titleForm, setTitleForm] = useState(''),
     [isUpdate, setIsUpdate] = useState(false),
     [dataForm, setDataForm] = useState({}),
     [courses, setCourses] = useState([]),
     [selectionModel, setSelectionModel] = React.useState([]),
-    [configsGetCourse, setConfigsGetCourse] = React.useState({
-      params: {
-        page: 0,
-        linesPerPage: 10,
-        direction: 'ASC',
-        orderBy: 'id'
-      }
-    }),
-    loadCourses = () => {
+    // [configsGetCourse, setConfigsGetCourse] = React.useState({
+    //   params: {
+    //     page: 0,
+    //     linesPerPage: 10,
+    //     direction: 'ASC',
+    //     orderBy: 'id'
+    //   }
+    // }),
+    loadCourses = (id) => {
       async function fetchData() {
-        await api.get(api.version + 'courses', configsGetCourse)
+        await api.get(api.version + 'users/' + id, {})
           .then((response) => {
-            setCourses(response.data.content)
+            setCourses(response.data.courses)
           })
       }
       fetchData();
@@ -51,7 +56,7 @@ export default function Courses() {
       setDataForm(null)
       handleOpenForm()
     },
-    reloadAll = function(idCourse){
+    reloadAll = function (idCourse) {
       handleCloseForm()
       updateFunction(idCourse)
     },
@@ -69,6 +74,7 @@ export default function Courses() {
       fetchData();
     },
     submitFuntion = function (isUpdate, dataForm) {
+      dataForm.userId = userId;
       if (!isUpdate) {
         async function addCourse() {
           await api.post(api.version + 'courses', dataForm)
@@ -108,18 +114,18 @@ export default function Courses() {
         />
       );
     },
-    onChangeRowsPerPage = (numberOfRows) => {
-      let configAUX = configsGetCourse;
-      configAUX.params.linesPerPage = numberOfRows;
-      setConfigsGetCourse(configAUX);
-      loadCourses();
-    },
-    onChangePage = (currentPage) => {
-      let configAUX = configsGetCourse;
-      configAUX.params.page = currentPage;
-      setConfigsGetCourse(configAUX);
-      loadCourses();
-    },
+    // onChangeRowsPerPage = (numberOfRows) => {
+    //   let configAUX = configsGetCourse;
+    //   configAUX.params.linesPerPage = numberOfRows;
+    //   setConfigsGetCourse(configAUX);
+    //   loadCourses();
+    // },
+    // onChangePage = (currentPage) => {
+    //   let configAUX = configsGetCourse;
+    //   configAUX.params.page = currentPage;
+    //   setConfigsGetCourse(configAUX);
+    //   loadCourses();
+    // },
     datatableOptions = {
       filterType: "dropdown",
       download: false,
@@ -128,8 +134,8 @@ export default function Courses() {
       selectToolbarPlacement: 'none',
       customToolbar: handleCustomToolbar,
       onRowSelectionChange: onRowSelectionChange,
-      onChangeRowsPerPage: onChangeRowsPerPage,
-      onChangePage: onChangePage
+      // onChangeRowsPerPage: onChangeRowsPerPage,
+      // onChangePage: onChangePage
     },
     dataTableColumns = [
       {
@@ -156,8 +162,10 @@ export default function Courses() {
       }
     ];
 
-  useEffect(() => {
-    loadCourses();
+  useEffect(() => {    
+    const { id } = decoder(token);
+    setUserId(id)
+    loadCourses(id);
   }, []);
 
   return (
@@ -169,12 +177,12 @@ export default function Courses() {
         onClose={handleCloseForm}
       >
         <Box className={classes.boxModalCourseForm}>
-          <CourseForm 
-          title={titleForm} 
-          submitFuntion={submitFuntion} 
-          data={dataForm} 
-          isUpdate={isUpdate} 
-          reloadAll={reloadAll}/>
+          <CourseForm
+            title={titleForm}
+            submitFuntion={submitFuntion}
+            data={dataForm}
+            isUpdate={isUpdate}
+            reloadAll={reloadAll} />
         </Box>
       </Modal>
       <Grid item xs={12}>
