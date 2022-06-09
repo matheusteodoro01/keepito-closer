@@ -88,7 +88,7 @@ export default function Courses() {
         }
         addCourse();
       } else {
-        let params = { name: dataForm.name, description: dataForm.description };
+        let params = { name: dataForm.name, description: dataForm.description, creatorId: dataForm.creatorId };
         async function updateCourse() {
           await api.put(api.version + 'courses/' + dataForm.id, params)
             .then((response) => {
