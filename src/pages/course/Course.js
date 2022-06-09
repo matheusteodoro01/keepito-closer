@@ -74,7 +74,7 @@ export default function Courses() {
       fetchData();
     },
     submitFuntion = function (isUpdate, dataForm) {
-      dataForm.userId = userId;
+      dataForm.creatorId = userId;
       if (!isUpdate) {
         async function addCourse() {
           await api.post(api.version + 'courses', dataForm)
