@@ -79,7 +79,7 @@ export default function Courses() {
         async function addCourse() {
           await api.post(api.version + 'courses', dataForm)
             .then((response) => {
-              loadCourses();
+              loadCourses(userId);
               reloadAll(response.data.id)
             })
             .catch(function (error) {
@@ -88,11 +88,11 @@ export default function Courses() {
         }
         addCourse();
       } else {
-        let params = { name: dataForm.name, description: dataForm.description, creatorId: dataForm.creatorId };
+        let params = { name: dataForm.name, description: dataForm.description, creatorId: dataForm.creatorId }
         async function updateCourse() {
           await api.put(api.version + 'courses/' + dataForm.id, params)
             .then((response) => {
-              loadCourses();
+              loadCourses(userId);
               reloadAll(dataForm.id)
             })
             .catch(function (error) {
