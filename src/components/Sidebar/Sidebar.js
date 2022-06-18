@@ -34,11 +34,11 @@ const structure = [
   { id: 0, label: "Dashboard", link: "/app/dashboard", icon: < HomeIcon /> },
   {
     id: 1,
-    label: "Menu",
+    label: "Seus Cursos",
     link: "/app/menu",
     icon: < TypographyIcon />,
   },
-  { id: -1, label: "Courses", link: "/app/courses", icon: < CoursesIcon /> },
+  { id: -1, label: "Menu", link: "/app/courses", icon: < CoursesIcon /> },
   { id: 2, label: "Tables", link: "/app/tables", icon: < TableIcon /> },
   {
     id: 3,
@@ -56,34 +56,6 @@ const structure = [
       { label: "Charts", link: "/app/ui/charts" },
       { label: "Maps", link: "/app/ui/maps" },
     ],
-  },
-  { id: 5, type: "divider" },
-  { id: 6, type: "title", label: "HELP" },
-  { id: 7, label: "Library", link: "https://flatlogic.com/templates", icon: < LibraryIcon /> },
-  { id: 8, label: "Support", link: "https://flatlogic.com/forum", icon: < SupportIcon /> },
-  { id: 9, label: "FAQ", link: "https://flatlogic.com/forum", icon: < FAQIcon /> },
-  { id: 10, type: "divider" },
-  { id: 11, type: "title", label: "PROJECTS" },
-  {
-    id: 12,
-    label: "My recent",
-    link: "",
-    icon: < Dot size="small"
-      color="warning" />,
-  },
-  {
-    id: 13,
-    label: "Starred",
-    link: "",
-    icon: < Dot size="small"
-      color="primary" />,
-  },
-  {
-    id: 14,
-    label: "Background",
-    link: "",
-    icon: < Dot size="small"
-      color="secondary" />,
   },
 ];
 
@@ -106,8 +78,8 @@ function Sidebar({ location }) {
     };
   });
 
-  return (<
-        Drawer variant={isPermanent ? "permanent" : "temporary"}
+  return (
+  <Drawer variant={isPermanent ? "permanent" : "temporary"}
     className={
       classNames(classes.drawer, {
         [classes.drawerOpen]: isSidebarOpened,
@@ -123,36 +95,28 @@ function Sidebar({ location }) {
       }
     }
     open={isSidebarOpened} >
-    <
-      div className={classes.toolbar}
-    /> <
-        div className={classes.mobileBackButton} >
-      <
-        IconButton onClick={
+    <div className={classes.toolbar}/> 
+    <div className={classes.mobileBackButton} >
+      <IconButton onClick={
           () => toggleSidebar(layoutDispatch)
-        } >
-        <
-          ArrowBackIcon classes={
+        }>
+        <ArrowBackIcon classes={
             {
               root: classNames(classes.headerIcon, classes.headerIconCollapse),
             }
           }
-        /> < /
-        IconButton > <
-        /div> <
-        List className={classes.sidebarList} > {
+        /> 
+        </IconButton > 
+        </div> <List className={classes.sidebarList} > {
             structure.map(link => (<
               SidebarLink key={link.id}
               location={location}
               isSidebarOpened={isSidebarOpened} {...link}
             />
             ))
-          } <
-        /List> < /
-        Drawer >
+          } </List> 
+          </Drawer>
           );
-
-          // ##################################################################
           function handleWindowWidthChange() {
         var windowWidth = window.innerWidth;
           var breakpointWidth = theme.breakpoints.values.md;
@@ -166,4 +130,4 @@ function Sidebar({ location }) {
     }
 }
 
-          export default withRouter(Sidebar);
+export default withRouter(Sidebar);
