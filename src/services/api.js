@@ -2,7 +2,7 @@ import axios from "axios";
 
 const token = localStorage.getItem("keepitoAuthorization");
 const api = axios.create({
-  baseURL: "https://jornada-back.herokuapp.com",
+  baseURL: "https://jornada-back2.herokuapp.com",
 });
 
 if (token) {
