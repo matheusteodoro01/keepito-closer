@@ -37,7 +37,7 @@ export default function Courses() {
     // }),
     loadCourses = (id) => {
       async function fetchData() {
-        await api.get(api.version + 'users/' + id, {})
+        await api.get(api.version + 'courses/user/' + id, {})
           .then((response) => {
             setCourses(response.data.courses)
           })
