@@ -3,6 +3,7 @@ import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 import classnames from "classnames";
 import { Box, IconButton, Link } from "@material-ui/core";
 import Icon from "@mdi/react";
+import DetailsCourse from '../../pages/course/details/Details'
 
 //icons
 import {
@@ -62,6 +63,7 @@ function Layout(props) {
             <Route path="/app/menu" component={Menu} />
             <Route path="/app/tables" component={Tables} />
             <Route path="/app/courses" component={Courses} />
+            <Route path="/app/course/details/:course_id" component={DetailsCourse} />
             <Route path="/app/notifications" component={Notifications} />
             <Route
               exact
