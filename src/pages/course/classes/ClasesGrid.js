@@ -140,6 +140,7 @@ export default function Classes(props) {
       onRowSelectionChange: onRowSelectionChange,
       onChangeRowsPerPage: onChangeRowsPerPage,
       onChangePage: onChangePage,
+      onRowClick: (rowData) => history.push("/app/course/classe/details/1")
     },
     dataTableColumns = [
       {
@@ -184,9 +185,7 @@ export default function Classes(props) {
         <MUIDataTable
           data={classes}
           columns={dataTableColumns}
-          options={{
-            onRowClick: (rowData) => history.push("/app/course/details/1"),
-          }}
+          options={datatableOptions}
         />
       </Grid>
     </>
