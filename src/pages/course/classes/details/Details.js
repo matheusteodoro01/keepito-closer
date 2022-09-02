@@ -4,58 +4,51 @@ import { Link, useParams } from "react-router-dom";
 import Card from "@material-ui/core/Card";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
+import AttachFileIcon from "@material-ui/icons/AttachFile";
 // styles
 import "react-toastify/dist/ReactToastify.css";
 import useStyles from "./styles";
 
 // components
 
-import { Typography, Button } from "../../../components/Wrappers/Wrappers";
+import { Typography, Button } from "../../../../components/Wrappers/Wrappers";
 import CardMedia from "@material-ui/core/CardMedia";
-import api from "../../../services/api";
-import { decoder } from "../../../services/decoder";
+import api from "../../../../services/api";
+import { decoder } from "../../../../services/decoder";
 
-export default function DetailsCourse(props) {
+export default function DetailsClasse(props) {
   var classes = useStyles();
   const token = localStorage.getItem("keepitoAuthorization");
-  const [course, setCourse] = useState([]);
+  const [Classe, setClasse] = useState([]);
   const [subscribe, setSubscribe] = useState(true);
-  const [courseClasses, setCourseClasses] = useState([]);
+  const [ClasseQuizzes, setClasseQuizzes] = useState([]);
   const { id } = decoder(token);
-  let { course_id } = useParams();
+  let { classeId } = useParams();
 
-  function isSubscribe(course) {
-    if (course.id == id) return true; 
+  function isSubscribe(Classe) {
+    if (Classe.id == id) return true; 
     return false;
   }
 
-  async function getCourse() {
+  async function getClasse() {
     try {
-      const response = await api.get(`/v1/courses/${course_id}`);
-      setCourse(response.data);
-      setCourseClasses(response.data.classes);
+      const classe = await api.get(`/v1/classes/${classeId}`);
+      setClasse(classe.data);
+      setClasseQuizzes(classe.data.quizzes);
     } catch (error) {
-      setCourse([]);
-      setCourseClasses([]);
+      setClasse([]);
+      setClasseQuizzes([]);
     }
   }
-  async function getSubscribe() {
-    try {
-      const response = await api.get(`/v1/users/${id}`);
-     response.data?.courses.filter(isSubscribe).length == 0 && setSubscribe(true)
-    } catch (error) {
-      setSubscribe(false)
-    }
-  }
+
   useEffect( () => {
-     getCourse();
-     getSubscribe();
+     getClasse();
   }, []);
 
-  function handleSubscribe({ courseId, userId }) {
-    console.log(courseId, userId);
+  function handleSubscribe({ ClasseId, userId }) {
+    console.log(ClasseId, userId);
     api
-      .post(`/v1/registers?userId=${userId}&courseId=${courseId}`)
+      .post(`/v1/registers?userId=${userId}&ClasseId=${ClasseId}`)
       .then((response) => {
         setSubscribe(true);
       });
@@ -84,35 +77,37 @@ export default function DetailsCourse(props) {
         <Grid item sm={8} md={8}>
           <CardContent>
             <Typography gutterBottom variant="h1" component="div">
-              {course.name}
-            </Typography>
-            <Typography variant="body1" color="text.primary">
-              {courseClasses.length} aula(s)
+              {Classe.name}
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              {course.description} Um curso totalmente focado em Java para Web!
-              Com ele você aprenderá a desenvolver seus próprios websites e
-              sistemas com essa linguagem! Tudo o que há de mais recente nessa
-              tecnologia você encontra em nosso curso que é totalmente focado em
-              projetos práticos para você desenvolver aplicações poderosas com o
-              Java no Back-end.
+              {Classe.description}
               {subscribe}
             </Typography>
 
             <CardActions disableSpacing>
+            <Typography gutterBottom variant="h1" component="div">
                <Button
                 variant="contained"
                 color="primary"
                 size="large"
                 className={classes.buttonsContainer}
                 component={Link}
-                onClick={() =>
-                  handleSubscribe({ courseId: course.id, userId: id })
-                }
-                to={`/app/subscribe/course/${course.id}`}
+                to={`/app/subscribe/classe/${Classe.id}`}
               >
-              {!subscribe ? 'Inscrever-se': 'Acessar'}
+              Criar Quiz
               </Button>
+              </Typography>
+              <Typography gutterBottom variant="h1" component="div">
+              <Button
+                    onClick={''}
+                    variant="outlined"
+                    color="primary"
+                    size="large"
+                    endIcon={<AttachFileIcon />}>
+                    Enviar Arquivo
+            </Button>
+            </Typography>
+              
               <IconButton aria-label="add to favorites">
                 <FavoriteIcon />
               </IconButton>
@@ -124,26 +119,34 @@ export default function DetailsCourse(props) {
         </Grid>
       </Grid>
       <Grid container spacing={1}>
-        <Grid item sm={10} md={8}>
+        <Grid item sm={15} md={12} lg={12} >
           <Typography gutterBottom variant="h2" component="div">
             Conteudo
           </Typography>
         </Grid>
-        {courseClasses.map((course) => (
-          <Grid item key={course.id}>
+        {ClasseQuizzes.map((quiz) => (
+          <Grid item sm={12} md={12} lg={12} key={quiz.id}>
             <Card>
               <CardContent>
                 <Typography variant="h4" component="p">
-                  {course.name}
+                  {quiz.name}
                 </Typography>
                 <Typography>
-                  {course.description} Neste curso o aluno irá aprender as
-                  partes básicas como: Configuração do Ambiente; Algoritmo e
-                  Estrutura de Dados; Fundamentos da Linguagem Java; Estruturas
-                  de Controle; Classes, Objetos e Métodos. Dessa forma, o aluno
-                  estará preparado para conceitos mais avançados, como a
-                  Orientação a Objetos, por exemplo.
+                  {quiz.description}
                 </Typography>
+                <Typography>
+                  {quiz.questions.length} Questões
+                </Typography>
+                <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                className={classes.buttonsContainer}
+                component={Link}
+                to={`/app/course/classe/quiz/details/${quiz.id}`}
+              >
+              Editar Quiz
+              </Button>
               </CardContent>
             </Card>
           </Grid>
