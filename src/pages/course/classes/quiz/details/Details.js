@@ -1,29 +1,40 @@
 import React, { useState, useEffect } from "react";
-import { Grid, CardContent, CardActions, IconButton } from "@material-ui/core";
+import {
+  Grid,
+  CardContent,
+  CardActions,
+  IconButton,
+  Modal,
+  Box,
+} from "@material-ui/core";
 import { Link, useParams } from "react-router-dom";
 import Card from "@material-ui/core/Card";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 // styles
 import "react-toastify/dist/ReactToastify.css";
-import useStyles from "./styles";
+import useStyles from "../../../../../components/styles";
 
 // components
+import {
+  Typography,
+  Button,
+} from "../../../../../components/Wrappers/Wrappers";
+import CreateQuiz from "../../../../../../src/components/quiz/Create"
 
-import { Typography, Button } from "../../../../../components/Wrappers/Wrappers";
 import CardMedia from "@material-ui/core/CardMedia";
 import api from "../../../../../services/api";
 import { decoder } from "../../../../../services/decoder";
 
 export default function DetailsQuiz(props) {
-  var classes = useStyles();
+  var classesNames = useStyles();
   const token = localStorage.getItem("keepitoAuthorization");
-  const [Quiz, setQuiz] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [quiz, setQuiz] = useState({});
   const [subscribe, setSubscribe] = useState(true);
-  const [QuizQuestions, setQuizQuestions] = useState([]);
+  const [quizQuestions, setQuizQuestions] = useState([]);
   const { id } = decoder(token);
-  let {quizId } = useParams();
-
+  let { quizId } = useParams();
 
   async function getQuiz() {
     try {
@@ -36,21 +47,22 @@ export default function DetailsQuiz(props) {
     }
   }
 
-  useEffect( () => {
-     getQuiz();
+  useEffect(() => {
+    getQuiz();
   }, []);
-
-  function handleSubscribe({ QuizId, userId }) {
-    console.log(QuizId, userId);
-    api
-      .post(`/v1/registers?userId=${userId}&QuizId=${QuizId}`)
-      .then((response) => {
-        setSubscribe(true);
-      });
-  }
 
   return (
     <>
+      <Modal open={showModal} onClose={() => setShowModal(false)}>
+        <Box className={classesNames.boxModalCreateQuizForm}>
+          <CreateQuiz
+          quizId={quiz.id}
+          questions={quizQuestions}
+          setQuestions={setQuizQuestions}
+          setShowModal={setShowModal}
+          />
+        </Box>
+      </Modal>
       <Grid container spacing={1}>
         <Grid item sm={4} md={4}>
           <Card
@@ -72,14 +84,23 @@ export default function DetailsQuiz(props) {
         <Grid item sm={8} md={8}>
           <CardContent>
             <Typography gutterBottom variant="h1" component="div">
-              {Quiz.name}
+              {quiz.name}
             </Typography>
             <Typography variant="body1" color="text.primary">
-              {QuizQuestions.length} questões
+              {quizQuestions.length} questões
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              {Quiz.description}
+              {quiz.description}
             </Typography>
+
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              onClick={() => setShowModal(true)}
+            >
+              Adicionar Questão
+            </Button>
 
             <CardActions disableSpacing>
               <IconButton aria-label="add to favorites">
@@ -93,12 +114,12 @@ export default function DetailsQuiz(props) {
         </Grid>
       </Grid>
       <Grid container spacing={1}>
-        <Grid item sm={12} md={12} lg={12} >
+        <Grid item sm={12} md={12} lg={12}>
           <Typography gutterBottom variant="h2" component="div">
             Questões
           </Typography>
         </Grid>
-        {QuizQuestions.map((question) => (
+        {quizQuestions.map((question) => (
           <Grid item sm={12} md={12} lg={12} key={question.id}>
             <Card>
               <CardContent>
@@ -109,15 +130,13 @@ export default function DetailsQuiz(props) {
                   Alternativa correta: {question.correctAlternative}
                 </Typography>
                 <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                className={classes.buttonsContainer}
-                component={Link}
-                to={`/app/subscribe/Quiz/${Quiz.id}`}
-              >
-              Editar Questão
-              </Button>
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  onClick={() => setShowModal(true)}
+                >
+                  Editar Questão
+                </Button>
               </CardContent>
             </Card>
           </Grid>
