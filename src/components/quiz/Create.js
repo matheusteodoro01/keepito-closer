@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FormControl, TextField } from "@material-ui/core";
 
 // api
@@ -13,22 +13,48 @@ import SubmitButton from "../../components/SubmitButton";
 export default function CreateQuiz(props) {
   const style = useStyles(),
     [quizId, setQuizId] = useState(props.quizId),
-    [title, setTitle] = useState(props.data?.name),
-    [alternative, setAlternative] = useState(""),
-    handleForm = async () => {
+    [title, setTitle] = useState(props?.question?.title),
+    [alternative, setAlternative] = useState(
+      props?.question?.correctAlternative,
+    ),
+    createQuestion = async (event) => {
+      event.preventDefault();
       const question = await api.post("v1/questions", {
         title,
         correctAlternative: alternative,
         quizId,
       });
-      const questions = props.questions
-      questions.push(question.data)
-      props.setQuestions(questions)
-      props.setShowModal(false)
+      const questions = props.questions;
+      questions.push(question.data);
+      props.setQuestions(questions);
+      props.setShowModal(false);
     },
-    subimitClick = async (event) => {
+    updateQuestion = async (event) => {
       event.preventDefault();
-      await handleForm();
+      const questionUpdate = props?.question;
+      const question = await api.put(`v1/questions/${questionUpdate.id}`, {
+        id: questionUpdate.id,
+        title,
+        correctAlternative: alternative,
+        quizId,
+      });
+      const questions = props.questions;
+      const questionsUpdate = questions.filter(
+        (question) => question.id !== questionUpdate.id,
+      );
+      questionsUpdate.push(question.data);
+
+      const compare = (a, b) => {
+        if (a.id < b.id) {
+          return -1;
+        }
+        if (a.id > b.id) {
+          return 1;
+        }
+        return 0;
+      };
+      props.setQuestions(questionsUpdate.sort(compare));
+      props.setShowModal(false);
     };
 
   return (
@@ -65,7 +91,9 @@ export default function CreateQuiz(props) {
         value={alternative}
         onChange={(e) => setAlternative(e.target.value)}
       />
-      <SubmitButton subimit={subimitClick} />
+      <SubmitButton
+        subimit={props?.question ? updateQuestion : createQuestion}
+      />
     </FormControl>
   );
 }

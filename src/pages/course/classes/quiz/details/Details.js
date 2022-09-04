@@ -20,7 +20,7 @@ import {
   Typography,
   Button,
 } from "../../../../../components/Wrappers/Wrappers";
-import CreateQuiz from "../../../../../../src/components/quiz/Create"
+import CreateQuiz from "../../../../../../src/components/quiz/Create";
 
 import CardMedia from "@material-ui/core/CardMedia";
 import api from "../../../../../services/api";
@@ -31,7 +31,7 @@ export default function DetailsQuiz(props) {
   const token = localStorage.getItem("keepitoAuthorization");
   const [showModal, setShowModal] = useState(false);
   const [quiz, setQuiz] = useState({});
-  const [subscribe, setSubscribe] = useState(true);
+  const [question, setQuestion] = useState({});
   const [quizQuestions, setQuizQuestions] = useState([]);
   const { id } = decoder(token);
   let { quizId } = useParams();
@@ -40,7 +40,17 @@ export default function DetailsQuiz(props) {
     try {
       const quiz = await api.get(`/v1/quizzes/${quizId}`);
       setQuiz(quiz.data);
-      setQuizQuestions(quiz.data.questions);
+      const compare = (a, b) => {
+        if (a.id < b.id) {
+          return -1;
+        }
+        if (a.id > b.id) {
+          return 1;
+        }
+        return 0;
+      };
+      const questions = quiz.data.questions;
+      setQuizQuestions(questions.sort(compare));
     } catch (error) {
       setQuiz([]);
       setQuizQuestions([]);
@@ -56,10 +66,11 @@ export default function DetailsQuiz(props) {
       <Modal open={showModal} onClose={() => setShowModal(false)}>
         <Box className={classesNames.boxModalCreateQuizForm}>
           <CreateQuiz
-          quizId={quiz.id}
-          questions={quizQuestions}
-          setQuestions={setQuizQuestions}
-          setShowModal={setShowModal}
+            quizId={quiz.id}
+            question={question}
+            questions={quizQuestions}
+            setQuestions={setQuizQuestions}
+            setShowModal={setShowModal}
           />
         </Box>
       </Modal>
@@ -97,7 +108,10 @@ export default function DetailsQuiz(props) {
               variant="contained"
               color="primary"
               size="large"
-              onClick={() => setShowModal(true)}
+              onClick={() => {
+                setShowModal(true);
+                setQuestion(null);
+              }}
             >
               Adicionar Questão
             </Button>
@@ -124,7 +138,7 @@ export default function DetailsQuiz(props) {
             <Card>
               <CardContent>
                 <Typography variant="h4" component="p">
-                  {question.title}
+                  {question.id} - {question.title}
                 </Typography>
                 <Typography>
                   Alternativa correta: {question.correctAlternative}
@@ -133,7 +147,10 @@ export default function DetailsQuiz(props) {
                   variant="contained"
                   color="primary"
                   size="small"
-                  onClick={() => setShowModal(true)}
+                  onClick={() => {
+                    setShowModal(true);
+                    setQuestion(question);
+                  }}
                 >
                   Editar Questão
                 </Button>
