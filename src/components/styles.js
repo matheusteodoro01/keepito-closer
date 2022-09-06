@@ -50,18 +50,18 @@ export default makeStyles(theme => ({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: theme.spacing(4),
+        padding: theme.spacing(2),
 
         '& .MuiTextField-root': {
-            margin: theme.spacing(4),
-            width: '300px',
+            margin: theme.spacing(1),
+            
         },
         '& .MuiButtonBase-root': {
             margin: theme.spacing(1),
         },
         '& .MuiGrid-root': {
             margin: theme.spacing(1),
-            width: '100%',
+          
         },
     },
 }));
