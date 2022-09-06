@@ -27,17 +27,19 @@ export default function SaveQuiz(props) {
         theme,
         score,
         classId: props.classId,
-        question:{
-          title,
-          correctAlternative: alternative,
-        }
+        questions: [
+          {
+            title,
+            correctAlternative: alternative,
+          },
+        ],
       });
       const quizzes = props.quizzes;
-      console.log(quizzes)
-      quizzes.push(quiz.data)
+      console.log(quizzes);
+      quizzes.push(quiz.data);
       props.setQuizzes(quizzes);
-      props.setShowModal(false)
-      history.push(`/app/course/classe/quiz/details/${quiz.data.id}`)
+      props.setShowModal(false);
+      history.push(`/app/course/classe/quiz/details/${quiz.data.id}`);
     };
 
   return (
@@ -78,7 +80,7 @@ export default function SaveQuiz(props) {
         />
       </div>
       <div className="div">
-      <TextField
+        <TextField
           required
           id="outlined-required"
           label="Titulo"
@@ -86,7 +88,7 @@ export default function SaveQuiz(props) {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-          <TextField
+        <TextField
           required
           id="outlined-required"
           label="Alternativa Correta"
