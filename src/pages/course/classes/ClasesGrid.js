@@ -140,7 +140,7 @@ export default function Classes(props) {
       onRowSelectionChange: onRowSelectionChange,
       onChangeRowsPerPage: onChangeRowsPerPage,
       onChangePage: onChangePage,
-      onRowClick: (rowData) => history.push("/app/course/classe/details/1")
+      onRowClick: (rowData) => history.push(`/app/course/${courseId}/classe/details/${rowData[0]}`)
     },
     dataTableColumns = [
       {
@@ -168,7 +168,6 @@ export default function Classes(props) {
         },
       },
     ];
-
   return (
     <>
       <Modal open={showForm} onClose={handleCloseForm}>

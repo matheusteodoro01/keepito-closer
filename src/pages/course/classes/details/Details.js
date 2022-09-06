@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Grid, CardContent, CardActions, IconButton } from "@material-ui/core";
+import { Grid, CardContent, CardActions, IconButton, Modal, Box } from "@material-ui/core";
 import { Link, useParams } from "react-router-dom";
 import Card from "@material-ui/core/Card";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
+
 // styles
 import "react-toastify/dist/ReactToastify.css";
 import useStyles from "./styles";
 
 // components
-
 import { Typography, Button } from "../../../../components/Wrappers/Wrappers";
 import CardMedia from "@material-ui/core/CardMedia";
 import api from "../../../../services/api";
 import { decoder } from "../../../../services/decoder";
+import FilesPanel from "../../../../components/FilesPanel";
 
 export default function DetailsClasse(props) {
   var classes = useStyles();
@@ -22,11 +23,33 @@ export default function DetailsClasse(props) {
   const [Classe, setClasse] = useState([]);
   const [subscribe, setSubscribe] = useState(true);
   const [ClasseQuizzes, setClasseQuizzes] = useState([]);
+  const [openFiles, setOpenFiles] = useState(false);
   const { id } = decoder(token);
-  let { classeId } = useParams();
+  let { classeId, couseId } = useParams(),
+    hiddenFileInput = React.useRef(null),
+    uploadFileButton = event => {
+      hiddenFileInput.current.click();
+    },
+    uploadFile = (event) => {
+      const file = event.target.files[0];
+      const sendFile = async () => {
+        const dataForm = new FormData();
+        dataForm.append('file', file);
+        const res = await api.post(api.version + 'classes/uploadFile?classId=' + classeId, dataForm)
+      };
+      sendFile();
+    }, getFiles = () => {
+      async function loadFiles() {
+        return await api.get(api.version + 'classes/files?classId=' + classeId, {})
+          .then((response) => {
+            return response.data
+          })
+      }
+      return loadFiles();
+    };
 
   function isSubscribe(Classe) {
-    if (Classe.id == id) return true; 
+    if (Classe.id == id) return true;
     return false;
   }
 
@@ -41,8 +64,8 @@ export default function DetailsClasse(props) {
     }
   }
 
-  useEffect( () => {
-     getClasse();
+  useEffect(() => {
+    getClasse();
   }, []);
 
   function handleSubscribe({ ClasseId, userId }) {
@@ -85,29 +108,38 @@ export default function DetailsClasse(props) {
             </Typography>
 
             <CardActions disableSpacing>
-            <Typography gutterBottom variant="h1" component="div">
-               <Button
-                variant="contained"
-                color="primary"
-                size="large"
-                className={classes.buttonsContainer}
-                component={Link}
-                to={`/app/subscribe/classe/${Classe.id}`}
-              >
-              Criar Quiz
-              </Button>
-              </Typography>
               <Typography gutterBottom variant="h1" component="div">
-              <Button
-                    onClick={''}
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  className={classes.buttonsContainer}
+                  component={Link}
+                  to={`/app/subscribe/classe/${Classe.id}`}
+                >
+                  Criar Quiz
+                </Button>
+              </Typography>
+
+              <div>
+                <input
+                  type="file"
+                  ref={hiddenFileInput}
+                  onChange={uploadFile}
+                  accept="application/pdf"
+                  style={{ display: 'none' }} />
+                <Typography gutterBottom variant="h1" component="div">
+                  <Button
+                    onClick={uploadFileButton}
                     variant="outlined"
                     color="primary"
                     size="large"
                     endIcon={<AttachFileIcon />}>
                     Enviar Arquivo
-            </Button>
-            </Typography>
-              
+                  </Button>
+                </Typography>
+              </div>
+
               <IconButton aria-label="add to favorites">
                 <FavoriteIcon />
               </IconButton>
@@ -138,15 +170,15 @@ export default function DetailsClasse(props) {
                   {quiz.questions.length} Questões
                 </Typography>
                 <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                className={classes.buttonsContainer}
-                component={Link}
-                to={`/app/course/classe/quiz/details/${quiz.id}`}
-              >
-              Editar Quiz
-              </Button>
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  className={classes.buttonsContainer}
+                  component={Link}
+                  to={`/app/course/classe/quiz/details/${quiz.id}`}
+                >
+                  Editar Quiz
+                </Button>
               </CardContent>
             </Card>
           </Grid>

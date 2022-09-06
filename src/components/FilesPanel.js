@@ -3,15 +3,15 @@ import { Button, Grid } from '@material-ui/core';
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 import { Typography } from "../components/Wrappers/Wrappers";
 import { InsertDriveFile } from "@material-ui/icons";
-import {  makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/styles";
 
 var useStyles = makeStyles(theme => ({
     badge: {
-      fontWeight: 600,
-      height: 16,
-      minWidth: 16,
+        fontWeight: 600,
+        height: 16,
+        minWidth: 16,
     },
-  }));
+}));
 
 export default function FilesPanel(props) {
     var classes = useStyles();
@@ -33,7 +33,10 @@ export default function FilesPanel(props) {
     }, []);
 
     return (
-        <div style={{ width: '100%'}}>
+        <div style={{
+            width: '100%',
+            justifyContent: 'center'
+        }}>
             <div>
                 <input
                     type="file"
@@ -42,18 +45,20 @@ export default function FilesPanel(props) {
                     accept="application/pdf"
                     style={{ display: 'none' }} />
 
-                <Button
-                    onClick={uploadFileButton}
-                    variant="outlined"
-                    color="primary"
-                    endIcon={<AttachFileIcon />}>
-                    Enviar
-            </Button>
+                <Typography align='center'>
+                    <Button
+                        onClick={uploadFileButton}
+                        variant="outlined"
+                        color="primary"
+                        endIcon={<AttachFileIcon />}>
+                        Enviar
+                    </Button>
+                </Typography>
             </div>
             <div>
                 <Grid container spacing={2} style={{ width: '100%' }}>
                     {
-                        files ?.map((file) => {
+                        files?.map((file) => {
                             let lengthName = file.length,
                                 nameButton = "",
                                 clckButton = () => {
@@ -66,12 +71,12 @@ export default function FilesPanel(props) {
 
                             return (
                                 <Typography key={file} variant="href" color="primary" className={classes.textRow}>
-                                <InsertDriveFile
-                                  key={file}
-                                  href={`${{ file }}`}
-                                />
-                               <a href={`https://jornada-back.s3.amazonaws.com/classes/classId-${props.classId}/${file}`} target="blank">{file}</a> 
-                              </Typography>
+                                    <InsertDriveFile
+                                        key={file}
+                                        href={`${{ file }}`}
+                                    />
+                                    <a href={`https://jornada-back.s3.amazonaws.com/classes/classId-${props.classId}/${file}`} target="blank">{file}</a>
+                                </Typography>
                             )
                         })
                     }

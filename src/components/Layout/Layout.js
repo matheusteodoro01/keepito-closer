@@ -64,7 +64,7 @@ function Layout(props) {
             <Route path="/app/menu" component={Menu} />
             <Route path="/app/tables" component={Tables} />
             <Route path="/app/courses" component={Courses} />
-            <Route path="/app/course/classe/details/:classeId" component={ClasseDetails} />
+            <Route path="/app/course/:courseId/classe/details/:classeId" component={ClasseDetails} />
             <Route path="/app/course/classe/quiz/details/:quizId" component={QuizDetails} />
             <Route path="/app/notifications" component={Notifications} />
             <Route
