@@ -20,8 +20,7 @@ import {
   Typography,
   Button,
 } from "../../../../../components/Wrappers/Wrappers";
-import CreateQuiz from "../../../../../../src/components/quiz/Create";
-
+import SaveQuestion from "../../../../../../src/components/quiz/question/Save";
 import CardMedia from "@material-ui/core/CardMedia";
 import api from "../../../../../services/api";
 import { decoder } from "../../../../../services/decoder";
@@ -65,7 +64,7 @@ export default function DetailsQuiz(props) {
     <>
       <Modal open={showModal} onClose={() => setShowModal(false)}>
         <Box className={classesNames.boxModalCreateQuizForm}>
-          <CreateQuiz
+          <SaveQuestion
             quizId={quiz.id}
             question={question}
             questions={quizQuestions}

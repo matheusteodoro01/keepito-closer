@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FormControl, TextField } from "@material-ui/core";
 
 // api
-import api from "../../services/api";
+import api from "../../../services/api";
 
 // styles
-import useStyles from "../styles";
+import useStyles from "../../styles";
 
 // components
-import SubmitButton from "../../components/SubmitButton";
+import SubmitButton from "../../../components/SubmitButton";
 
-export default function CreateQuiz(props) {
+export default function SaveQuestion(props) {
   const style = useStyles(),
     [quizId, setQuizId] = useState(props.quizId),
     [title, setTitle] = useState(props?.question?.title),
