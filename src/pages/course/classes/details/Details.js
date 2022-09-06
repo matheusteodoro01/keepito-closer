@@ -157,7 +157,7 @@ export default function DetailsClasse(props) {
                 </Typography>
               </div>
 
->>>>>>> 2fc1428a2caf818773c1efbeab90080d63ec4ec5
+
               <IconButton aria-label="add to favorites">
                 <FavoriteIcon />
               </IconButton>
