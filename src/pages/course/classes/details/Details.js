@@ -12,6 +12,7 @@ import Card from "@material-ui/core/Card";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
+
 // styles
 import "react-toastify/dist/ReactToastify.css";
 import useStyles from "../../../../components/styles";
@@ -22,6 +23,7 @@ import { Typography, Button } from "../../../../components/Wrappers/Wrappers";
 import CardMedia from "@material-ui/core/CardMedia";
 import api from "../../../../services/api";
 import { decoder } from "../../../../services/decoder";
+import FilesPanel from "../../../../components/FilesPanel";
 
 export default function DetailsClasse(props) {
   var classesNames = useStyles();
@@ -30,8 +32,30 @@ export default function DetailsClasse(props) {
   const [subscribe, setSubscribe] = useState(true);
   const [ClasseQuizzes, setClasseQuizzes] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [openFiles, setOpenFiles] = useState(false);
   const { id } = decoder(token);
-  let { classeId } = useParams();
+  let { classeId, couseId } = useParams(),
+    hiddenFileInput = React.useRef(null),
+    uploadFileButton = event => {
+      hiddenFileInput.current.click();
+    },
+    uploadFile = (event) => {
+      const file = event.target.files[0];
+      const sendFile = async () => {
+        const dataForm = new FormData();
+        dataForm.append('file', file);
+        const res = await api.post(api.version + 'classes/uploadFile?classId=' + classeId, dataForm)
+      };
+      sendFile();
+    }, getFiles = () => {
+      async function loadFiles() {
+        return await api.get(api.version + 'classes/files?classId=' + classeId, {})
+          .then((response) => {
+            return response.data
+          })
+      }
+      return loadFiles();
+    };
 
   function isSubscribe(Classe) {
     if (Classe.id == id) return true;
@@ -113,18 +137,27 @@ export default function DetailsClasse(props) {
                   Criar Quiz
                 </Button>
               </Typography>
-              <Typography gutterBottom variant="h1" component="div">
-                <Button
-                  onClick={""}
-                  variant="outlined"
-                  color="primary"
-                  size="large"
-                  endIcon={<AttachFileIcon />}
-                >
-                  Enviar Arquivo
-                </Button>
-              </Typography>
 
+              <div>
+                <input
+                  type="file"
+                  ref={hiddenFileInput}
+                  onChange={uploadFile}
+                  accept="application/pdf"
+                  style={{ display: 'none' }} />
+                <Typography gutterBottom variant="h1" component="div">
+                  <Button
+                    onClick={uploadFileButton}
+                    variant="outlined"
+                    color="primary"
+                    size="large"
+                    endIcon={<AttachFileIcon />}>
+                    Enviar Arquivo
+                  </Button>
+                </Typography>
+              </div>
+
+>>>>>>> 2fc1428a2caf818773c1efbeab90080d63ec4ec5
               <IconButton aria-label="add to favorites">
                 <FavoriteIcon />
               </IconButton>
