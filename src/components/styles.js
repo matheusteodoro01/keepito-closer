@@ -50,7 +50,7 @@ export default makeStyles(theme => ({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: theme.spacing(2),
+        padding: theme.spacing(),
 
         '& .MuiTextField-root': {
             margin: theme.spacing(1),
