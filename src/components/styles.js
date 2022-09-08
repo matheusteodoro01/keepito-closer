@@ -40,7 +40,7 @@ export default makeStyles(theme => ({
         'border-radius': '25px',
         padding: 5,
         'background-color': 'rgba(255,255,255,0.87)',
-        'max-height': '95%',
+        'max-height': '90%',
         overflow: "hidden",
 
     },
