@@ -38,7 +38,7 @@ export default makeStyles(theme => ({
         width: 500,
         background: '#FFFFFF',
         'border-radius': '25px',
-        padding: 5,
+        padding: 6,
         'background-color': 'rgba(255,255,255,0.87)',
         'max-height': '90%',
         overflow: "hidden",
