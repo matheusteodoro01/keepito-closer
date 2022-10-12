@@ -66,6 +66,7 @@ export default function DetailsQuiz(props) {
         <Box className={classesNames.boxModalCreateQuizForm}>
           <SaveQuestion
             quizId={quiz.id}
+            questionId={question?.id}
             question={question}
             questions={quizQuestions}
             setQuestions={setQuizQuestions}
@@ -97,7 +98,7 @@ export default function DetailsQuiz(props) {
               {quiz.name}
             </Typography>
             <Typography variant="body1" color="text.primary">
-              {quizQuestions.length} questões
+            {quizQuestions.length} {quizQuestions.length == 1 ? "questão" : "questões"}
             </Typography>
             <Typography variant="body1" color="text.secondary">
               {quiz.description}
