@@ -111,7 +111,7 @@ export default function SaveQuestion(props) {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        {alternatives?.map((alternative) => (
+        {alternatives?.map((alternative, index) => (
           <Stack
             key={alternative.id}
             direction="row"
@@ -124,7 +124,7 @@ export default function SaveQuestion(props) {
               }}
               fullWidth
               id="outlined-required"
-              label="Alternativa"
+              label={`Alternativa ${index + 1}`}
               name="alternative"
               value={alternative.description}
               onChange={(e) => setAlternative(e.target.value)}
