@@ -27,12 +27,6 @@ export default function SaveQuiz(props) {
         theme,
         score,
         classId: props.classId,
-        questions: [
-          {
-            title,
-            correctAlternative: alternative,
-          },
-        ],
       });
       const quizzes = props.quizzes;
       console.log(quizzes);
@@ -79,56 +73,7 @@ export default function SaveQuiz(props) {
           onChange={(e) => setTheme(e.target.value)}
         />
       </div>
-      <div className="div">
-        <TextField
-          required
-          id="outlined-required"
-          label="Titulo"
-          name="alternative"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <TextField
-          required
-          id="outlined-required"
-          label="Alternativa Correta"
-          name="alternative"
-          value={alternative}
-          onChange={(e) => setAlternative(e.target.value)}
-        />
-        <TextField
-          required
-          id="outlined-required"
-          label="Alternativa 1"
-          name="alternative"
-          value={alternative}
-          onChange={(e) => setAlternative(e.target.value)}
-        />
-        <TextField
-          required
-          id="outlined-required"
-          label="Alternativa 2"
-          name="alternative"
-          value={alternative}
-          onChange={(e) => setAlternative(e.target.value)}
-        />
-        <TextField
-          required
-          id="outlined-required"
-          label="Alternativa 3"
-          name="alternative"
-          value={alternative}
-          onChange={(e) => setAlternative(e.target.value)}
-        />
-        <TextField
-          required
-          id="outlined-required"
-          label="Alternativa 4"
-          name="alternative"
-          value={alternative}
-          onChange={(e) => setAlternative(e.target.value)}
-        />
-      </div>
+
       <SubmitButton subimit={createQuestion} />
     </FormControl>
   );
