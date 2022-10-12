@@ -9,14 +9,18 @@ import useStyles from "../../styles";
 
 // components
 import SubmitButton from "../../../components/SubmitButton";
+import { useEffect } from "react";
 
 export default function SaveQuestion(props) {
   const style = useStyles(),
     [quizId, setQuizId] = useState(props.quizId),
-    [title, setTitle] = useState(props?.question?.title),
-    [alternative, setAlternative] = useState(
-      props?.question?.correctAlternative,
-    ),
+    [questionId, setQuestionId] = useState(props.questionId),
+    [title, setTitle] = useState(""),
+    [alternative, setAlternative] = useState(""),
+    [alternative1, setAlternative1] = useState(""),
+    [alternative2, setAlternative2] = useState(""),
+    [alternative3, setAlternative3] = useState(""),
+    [alternative4, setAlternative4] = useState(""),
     createQuestion = async (event) => {
       event.preventDefault();
       const question = await api.post("v1/questions", {
@@ -24,6 +28,11 @@ export default function SaveQuestion(props) {
         correctAlternative: alternative,
         quizId,
       });
+      await Promise.all(
+        [alternative, alternative1, alternative2, alternative3, alternative4].map(
+          async (description) =>
+            await api.post("v1/alternatives", { description, questionId }),
+        ))
       const questions = props.questions;
       questions.push(question.data);
       props.setQuestions(questions);
@@ -31,16 +40,20 @@ export default function SaveQuestion(props) {
     },
     updateQuestion = async (event) => {
       event.preventDefault();
-      const questionUpdate = props?.question;
-      const question = await api.put(`v1/questions/${questionUpdate.id}`, {
-        id: questionUpdate.id,
+      const question = await api.put(`v1/questions/${questionId}`, {
+        id: questionId,
         title,
-        correctAlternative: alternative,
+        correctAlternative: 1,
         quizId,
       });
+      await Promise.all(
+      [alternative, alternative1, alternative2, alternative3, alternative4].map(
+        async (description) =>
+          await api.post("v1/alternatives", { description, questionId }),
+      ))
       const questions = props.questions;
       const questionsUpdate = questions.filter(
-        (question) => question.id !== questionUpdate.id,
+        (question) => question.id !== questionId,
       );
       questionsUpdate.push(question.data);
 
@@ -56,6 +69,23 @@ export default function SaveQuestion(props) {
       props.setQuestions(questionsUpdate.sort(compare));
       props.setShowModal(false);
     };
+  async function getQuestion() {
+    try {
+      const question = await api.get(`/v1/questions/${props?.question?.id}`);
+      setTitle(question.data.title);
+      setAlternative(question.data.alternatives[0].description);
+      setAlternative1(question.data.alternatives[1].description);
+      setAlternative2(question.data.alternatives[2].description);
+      setAlternative3(question.data.alternatives[3].description);
+      setAlternative4(question.data.alternatives[4].description);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    questionId && getQuestion();
+  }, []);
 
   return (
     <FormControl className={style.form}>
@@ -80,20 +110,35 @@ export default function SaveQuestion(props) {
         id="outlined-required"
         label="Alternativa 2"
         name="alternative"
-        value={alternative}
-        onChange={(e) => setAlternative(e.target.value)}
+        value={alternative1}
+        onChange={(e) => setAlternative1(e.target.value)}
       />
       <TextField
         required
         id="outlined-required"
         label="Alternativa 3"
         name="alternative"
-        value={alternative}
-        onChange={(e) => setAlternative(e.target.value)}
+        value={alternative2}
+        onChange={(e) => setAlternative2(e.target.value)}
       />
-      <SubmitButton
-        subimit={props?.question ? updateQuestion : createQuestion}
+      <TextField
+        required
+        id="outlined-required"
+        label="Alternativa 4"
+        name="alternative"
+        value={alternative3}
+        onChange={(e) => setAlternative3(e.target.value)}
       />
+
+      <TextField
+        required
+        id="outlined-required"
+        label="Alternativa 5"
+        name="alternative"
+        value={alternative4}
+        onChange={(e) => setAlternative4(e.target.value)}
+      />
+      <SubmitButton subimit={questionId ? updateQuestion : createQuestion} />
     </FormControl>
   );
 }

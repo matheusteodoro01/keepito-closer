@@ -35,7 +35,8 @@ export default makeStyles(theme => ({
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 500,
+        minWidth: '50%',
+        maxWidth: '70%',
         background: '#FFFFFF',
         'border-radius': '25px',
         padding: 6,
@@ -50,18 +51,18 @@ export default makeStyles(theme => ({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: theme.spacing(),
+        padding: theme.spacing(4),
 
         '& .MuiTextField-root': {
             margin: theme.spacing(1),
-            
+            width: '100%',
         },
         '& .MuiButtonBase-root': {
             margin: theme.spacing(1),
         },
         '& .MuiGrid-root': {
             margin: theme.spacing(1),
-          
+            width: '100%',
         },
     },
 }));
