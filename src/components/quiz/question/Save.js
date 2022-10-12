@@ -1,6 +1,14 @@
-import React, { useState } from "react";
-import { FormControl, TextField } from "@material-ui/core";
-
+import React, { useState, useEffect } from "react";
+import {
+  FormControl,
+  TextField,
+  Modal,
+  Box,
+  IconButton,
+} from "@material-ui/core";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Stack from "@mui/material/Stack";
 // api
 import api from "../../../services/api";
 
@@ -8,55 +16,42 @@ import api from "../../../services/api";
 import useStyles from "../../styles";
 
 // components
-import SubmitButton from "../../../components/SubmitButton";
-import { useEffect } from "react";
+import SaveAlternative from "./alternative/Save";
+import { Button } from "../../../components/Wrappers/Wrappers";
 
 export default function SaveQuestion(props) {
+  var classesNames = useStyles();
   const style = useStyles(),
+    [showModal, setShowModal] = useState(false),
     [quizId, setQuizId] = useState(props.quizId),
     [questionId, setQuestionId] = useState(props.questionId),
     [title, setTitle] = useState(""),
-    [alternative, setAlternative] = useState(""),
-    [alternative1, setAlternative1] = useState(""),
-    [alternative2, setAlternative2] = useState(""),
-    [alternative3, setAlternative3] = useState(""),
-    [alternative4, setAlternative4] = useState(""),
+    [correctAlternative, setCorrectAlternative] = useState(""),
+    [alternatives, setAlternatives] = useState([]),
+    [alternative, setAlternative] = useState({}),
     createQuestion = async (event) => {
-      event.preventDefault();
       const question = await api.post("v1/questions", {
         title,
-        correctAlternative: alternative,
+        correctAlternative,
         quizId,
       });
-      await Promise.all(
-        [alternative, alternative1, alternative2, alternative3, alternative4].map(
-          async (description) =>
-            await api.post("v1/alternatives", { description, questionId }),
-        ))
       const questions = props.questions;
       questions.push(question.data);
       props.setQuestions(questions);
       props.setShowModal(false);
     },
     updateQuestion = async (event) => {
-      event.preventDefault();
       const question = await api.put(`v1/questions/${questionId}`, {
         id: questionId,
         title,
-        correctAlternative: 1,
+        correctAlternative,
         quizId,
       });
-      await Promise.all(
-      [alternative, alternative1, alternative2, alternative3, alternative4].map(
-        async (description) =>
-          await api.post("v1/alternatives", { description, questionId }),
-      ))
       const questions = props.questions;
       const questionsUpdate = questions.filter(
         (question) => question.id !== questionId,
       );
       questionsUpdate.push(question.data);
-
       const compare = (a, b) => {
         if (a.id < b.id) {
           return -1;
@@ -69,15 +64,19 @@ export default function SaveQuestion(props) {
       props.setQuestions(questionsUpdate.sort(compare));
       props.setShowModal(false);
     };
+
+  const handleRemoveAlternative = (item) => {
+    setAlternatives((alternative) => [
+      ...alternative.filter((i) => i.id !== item.id),
+    ]);
+  };
+
   async function getQuestion() {
     try {
       const question = await api.get(`/v1/questions/${props?.question?.id}`);
       setTitle(question.data.title);
-      setAlternative(question.data.alternatives[0].description);
-      setAlternative1(question.data.alternatives[1].description);
-      setAlternative2(question.data.alternatives[2].description);
-      setAlternative3(question.data.alternatives[3].description);
-      setAlternative4(question.data.alternatives[4].description);
+      setCorrectAlternative(question.data.correctAlternative);
+      setAlternatives(question.data.alternatives);
     } catch (error) {
       console.log(error);
     }
@@ -88,57 +87,103 @@ export default function SaveQuestion(props) {
   }, []);
 
   return (
-    <FormControl className={style.form}>
-      <TextField
-        required
-        id="outlined-required"
-        label="Titulo"
-        name="title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-      <TextField
-        required
-        id="outlined-required"
-        label="Alternativa 1"
-        name="alternative"
-        value={alternative}
-        onChange={(e) => setAlternative(e.target.value)}
-      />
-      <TextField
-        required
-        id="outlined-required"
-        label="Alternativa 2"
-        name="alternative"
-        value={alternative1}
-        onChange={(e) => setAlternative1(e.target.value)}
-      />
-      <TextField
-        required
-        id="outlined-required"
-        label="Alternativa 3"
-        name="alternative"
-        value={alternative2}
-        onChange={(e) => setAlternative2(e.target.value)}
-      />
-      <TextField
-        required
-        id="outlined-required"
-        label="Alternativa 4"
-        name="alternative"
-        value={alternative3}
-        onChange={(e) => setAlternative3(e.target.value)}
-      />
+    <>
+      <Modal open={showModal} onClose={() => setShowModal(false)}>
+        <Box className={classesNames.boxModalSaveAlternativeForm}>
+          <SaveAlternative
+            setShowModal={setShowModal}
+            setAlternatives={setAlternatives}
+            setCorrectAlternative={setCorrectAlternative}
+            questionId={questionId}
+            alternative={alternative}
+            alternatives={alternatives}
+            correctAlternative={correctAlternative}
+          />
+        </Box>
+      </Modal>
+      <FormControl className={style.form}>
+        <TextField
+          fullWidth
+          required
+          id="outlined-required"
+          label="Titulo"
+          name="title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        {alternatives?.map((alternative) => (
+          <Stack
+            key={alternative.id}
+            direction="row"
+            alignItems="center"
+            width="100%"
+          >
+            <TextField
+              InputProps={{
+                readOnly: true,
+              }}
+              fullWidth
+              id="outlined-required"
+              label="Alternativa"
+              name="alternative"
+              value={alternative.description}
+              onChange={(e) => setAlternative(e.target.value)}
+            />
+            <IconButton
+              size="small"
+              onClick={() => {
+                setAlternative(alternative);
+                setShowModal(true);
+              }}
+            >
+              <EditIcon />
+            </IconButton>
 
-      <TextField
-        required
-        id="outlined-required"
-        label="Alternativa 5"
-        name="alternative"
-        value={alternative4}
-        onChange={(e) => setAlternative4(e.target.value)}
-      />
-      <SubmitButton subimit={questionId ? updateQuestion : createQuestion} />
-    </FormControl>
+            <IconButton
+              size="small"
+              onClick={() => handleRemoveAlternative(alternative)}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </Stack>
+        ))}
+
+        <TextField
+          fullWidth
+          required
+          id="outlined-required"
+          label="Alternativa Correta"
+          name="alternative"
+          value={correctAlternative}
+          onChange={(e) => setCorrectAlternative(e.target.value)}
+        />
+        <Stack
+          key={alternative.id}
+          direction="row"
+          alignItems="center"
+          width="100%"
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            onClick={() => {
+              setShowModal(true);
+            }}
+          >
+            Adicionar alternativa
+          </Button>
+
+          <Button
+            variant="contained"
+            color="secudary"
+            size="large"
+            onClick={() => (questionId ? updateQuestion() : createQuestion())}
+          >
+            Salvar
+          </Button>
+        </Stack>
+      </FormControl>
+    </>
   );
 }
