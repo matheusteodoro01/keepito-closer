@@ -98,7 +98,8 @@ export default function DetailsQuiz(props) {
               {quiz.name}
             </Typography>
             <Typography variant="body1" color="text.primary">
-            {quizQuestions.length} {quizQuestions.length == 1 ? "questão" : "questões"}
+              {quizQuestions.length}{" "}
+              {quizQuestions.length == 1 ? "questão" : "questões"}
             </Typography>
             <Typography variant="body1" color="text.secondary">
               {quiz.description}
@@ -133,15 +134,16 @@ export default function DetailsQuiz(props) {
             Questões
           </Typography>
         </Grid>
-        {quizQuestions.map((question) => (
+        {quizQuestions.map((question, index) => (
           <Grid item sm={12} md={12} lg={12} key={question.id}>
             <Card>
               <CardContent>
                 <Typography variant="h4" component="p">
-                  {question.id} - {question.title}
+                  {index + 1} - {question.title}
                 </Typography>
                 <Typography>
-                  Alternativa correta: {question.correctAlternative}
+                  {question?.alternatives?.length}{" "}
+                  {question?.alternatives?.length === 1 ? "alternativa" : "alternativas"}
                 </Typography>
                 <Button
                   variant="contained"
