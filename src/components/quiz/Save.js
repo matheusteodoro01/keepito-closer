@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FormControl, TextField } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
+import Stack from "@mui/material/Stack";
 // api
 import api from "../../../src/services/api";
 
@@ -38,16 +39,20 @@ export default function SaveQuiz(props) {
 
   return (
     <FormControl className={style.form}>
-      <div className="div">
+      <Stack direction="row" alignItems="center" width="100%" spacing={10}>
         <TextField
           required
+          fullWidth
           id="outlined-required"
           label="Nome"
           name="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
+      </Stack>
+      <Stack direction="row" alignItems="center" width="100%" spacing={10}>
         <TextField
+          fullWidth
           size="3"
           required
           id="outlined-required"
@@ -56,8 +61,11 @@ export default function SaveQuiz(props) {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
+      </Stack>
+      <Stack direction="row" alignItems="center" width="100%" spacing={10}>
         <TextField
           required
+          fullWidth
           id="outlined-required"
           label="Nota do Quiz"
           name="score"
@@ -65,16 +73,16 @@ export default function SaveQuiz(props) {
           onChange={(e) => setScore(e.target.value)}
         />
         <TextField
-          required
+          fullWidth
           id="outlined-required"
           label="Tema"
           name="theme"
           value={theme}
           onChange={(e) => setTheme(e.target.value)}
         />
-      </div>
+      </Stack>
 
-      <SubmitButton subimit={createQuestion} />
+      <SubmitButton subimit={createQuestion}  />
     </FormControl>
   );
 }

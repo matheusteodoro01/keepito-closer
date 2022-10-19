@@ -3,8 +3,7 @@ import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 import classnames from "classnames";
 import { Box, IconButton, Link } from "@material-ui/core";
 import Icon from "@mdi/react";
-import ClasseDetails from '../../pages/course/classes/details/Details'
-import QuizDetails from '../../pages/course/classes/quiz/details/Details'
+
 
 //icons
 import {
@@ -27,7 +26,9 @@ import Notifications from "../../pages/notifications";
 import Maps from "../../pages/maps";
 import Tables from "../../pages/tables";
 import Courses from "../../pages/course";
-import DetailsCourse from "../../pages/course/Details"
+import CourseDetails from "../../pages/course/Details"
+import ClasseDetails from '../../pages/course/classes/details/Details'
+import QuizDetails from '../../pages/course/classes/quiz/details/Details'
 import Icons from "../../pages/icons";
 import Charts from "../../pages/charts";
 import Menu from "../../pages/menu/Menu";
@@ -65,8 +66,8 @@ function Layout(props) {
             <Route path="/app/menu" component={Menu} />
             <Route path="/app/tables" component={Tables} />
             <Route path="/app/courses" component={Courses} />
-            <Route path="/app/course/details/:course_id" component={DetailsCourse} />
-            <Route path="/app/course/details/:courseId/classe/details/:classeId" component={ClasseDetails} />
+            <Route path="/app/course/details/:courseId" component={CourseDetails} />
+            <Route path="/app/course/:courseId/classe/details/:classeId" component={ClasseDetails} />
             <Route path="/app/course/classe/quiz/details/:quizId" component={QuizDetails} />
             <Route path="/app/notifications" component={Notifications} />
             <Route

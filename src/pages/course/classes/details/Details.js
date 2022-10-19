@@ -116,7 +116,7 @@ export default function DetailsClasse(props) {
           </Card>
         </Grid>
 
-        <Grid item sm={8} md={8}>
+        <Grid item sm={8} md={8} >
           <CardContent>
             <Typography gutterBottom variant="h1" component="div">
               {Classe.name}
@@ -126,7 +126,7 @@ export default function DetailsClasse(props) {
               {subscribe}
             </Typography>
 
-            <CardActions disableSpacing>
+            <CardActions >
               <Typography gutterBottom variant="h1" component="div">
                 <Button
                   variant="contained"
@@ -158,12 +158,7 @@ export default function DetailsClasse(props) {
               </div>
 
 
-              <IconButton aria-label="add to favorites">
-                <FavoriteIcon />
-              </IconButton>
-              <IconButton aria-label="share">
-                <ShareIcon />
-              </IconButton>
+       
             </CardActions>
           </CardContent>
         </Grid>

@@ -20,11 +20,11 @@ export default function DetailsCourse(props) {
   const [course, setCourse] = useState([]);
   const [subscribe, setSubscribe] = useState(true);
   const [courseClasses, setCourseClasses] = useState([]);
-  let { course_id } = useParams();
+  let { courseId } = useParams();
 
   async function getCourse() {
     try {
-      const response = await api.get(`/v1/courses/${course_id}`);
+      const response = await api.get(`/v1/courses/${courseId}`);
       setCourse(response.data);
       setCourseClasses(response.data.classes);
     } catch (error) {
@@ -80,13 +80,13 @@ export default function DetailsCourse(props) {
         </Grid>
       </Grid>
       <Grid container spacing={1}>
-        <Grid item sm={10} md={8}>
+        <Grid item sm={15} md={12} lg={12}>
           <Typography gutterBottom variant="h2" component="div">
             Conteudo
           </Typography>
         </Grid>
         {courseClasses.map((classe) => (
-          <Grid item key={classe.id}>
+          <Grid item sm={12} md={12} lg={12}  key={classe.id}>
             <Card>
               <CardContent>
                 <Typography variant="h4" component="p">
@@ -96,10 +96,10 @@ export default function DetailsCourse(props) {
                 <Button
                   variant="contained"
                   color="primary"
-                  size="large"
-                  className={classes.buttonsContainer}
+                  size="small"
+                  
                   component={Link}
-                  to={`/app/course/details/${course_id}/classe/details/${classe.id}`}
+                  to={`/app/course/${courseId}/classe/details/${classe.id}`}
                 >
                   Acessar
                 </Button>
