@@ -140,7 +140,7 @@ export default function Classes(props) {
       onRowSelectionChange: onRowSelectionChange,
       onChangeRowsPerPage: onChangeRowsPerPage,
       onChangePage: onChangePage,
-      onRowClick: (rowData) => history.push(`/app/course/${courseId}/classe/details/${rowData[0]}`)
+      onRowClick: (rowData) => history.push(`/app/course/details/${courseId}/classe/details/${rowData[0]}`)
     },
     dataTableColumns = [
       {
