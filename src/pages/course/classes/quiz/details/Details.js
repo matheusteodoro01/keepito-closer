@@ -117,14 +117,7 @@ export default function DetailsQuiz(props) {
               Adicionar Questão
             </Button>
 
-            <CardActions disableSpacing>
-              <IconButton aria-label="add to favorites">
-                <FavoriteIcon />
-              </IconButton>
-              <IconButton aria-label="share">
-                <ShareIcon />
-              </IconButton>
-            </CardActions>
+
           </CardContent>
         </Grid>
       </Grid>
