@@ -2,15 +2,11 @@ import React, { useState, useEffect } from "react";
 import {
   Grid,
   CardContent,
-  CardActions,
-  IconButton,
   Modal,
   Box,
 } from "@material-ui/core";
-import { Link, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import Card from "@material-ui/core/Card";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import ShareIcon from "@material-ui/icons/Share";
 // styles
 import "react-toastify/dist/ReactToastify.css";
 import useStyles from "../../../../../components/styles";
