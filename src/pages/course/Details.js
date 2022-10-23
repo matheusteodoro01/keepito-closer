@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Grid, CardContent, CardActions, IconButton } from "@material-ui/core";
+import { Grid, CardContent, CardActions, IconButton,  Modal, Box } from "@material-ui/core";
 import { Link, useParams } from "react-router-dom";
 import classnames from "classnames";
 import Card from "@material-ui/core/Card";
@@ -7,9 +7,10 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 // styles
 import "react-toastify/dist/ReactToastify.css";
-import useStyles from "./styles";
+import useStyles from "../../components/styles";
 
 // components
+import SaveClass from "../../components/class/Save"
 
 import { Typography, Button } from "../../components/Wrappers/Wrappers";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -18,8 +19,9 @@ import api from "../../services/api";
 export default function DetailsCourse(props) {
   var classes = useStyles();
   const [course, setCourse] = useState([]);
-  const [subscribe, setSubscribe] = useState(true);
+
   const [courseClasses, setCourseClasses] = useState([]);
+  const [showModal, setShowModal] = useState(false);
   let { courseId } = useParams();
 
   async function getCourse() {
@@ -38,6 +40,16 @@ export default function DetailsCourse(props) {
 
   return (
     <>
+     <Modal open={showModal} onClose={() => setShowModal(false)}>
+        <Box className={classes.boxModalCreateQuizForm}>
+          <SaveClass
+            courseId={courseId}
+            classes={courseClasses}
+            setCourseClasses={setCourseClasses}
+            setShowModal={setShowModal}
+          />
+        </Box>
+      </Modal>
       <Grid container spacing={1}>
         <Grid item sm={4} md={4}>
           <Card
@@ -62,11 +74,20 @@ export default function DetailsCourse(props) {
               {course.name}
             </Typography>
             <Typography variant="body1" color="text.primary">
-              {courseClasses.length} aula(s)
+              {courseClasses.length} aula(s) {2} aluno(s)
             </Typography>
+
             <Typography variant="body1" color="text.secondary">
               {course.description}
             </Typography>
+            <Button
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  onClick={() => setShowModal(true)}
+                >
+                  Criar Aula
+                </Button>
 
             <CardActions disableSpacing>
               <IconButton aria-label="add to favorites">
@@ -86,7 +107,7 @@ export default function DetailsCourse(props) {
           </Typography>
         </Grid>
         {courseClasses.map((classe) => (
-          <Grid item sm={12} md={12} lg={12}  key={classe.id}>
+          <Grid item sm={12} md={12} lg={12} key={classe.id}>
             <Card>
               <CardContent>
                 <Typography variant="h4" component="p">
@@ -97,7 +118,6 @@ export default function DetailsCourse(props) {
                   variant="contained"
                   color="primary"
                   size="small"
-                  
                   component={Link}
                   to={`/app/course/${courseId}/classe/details/${classe.id}`}
                 >

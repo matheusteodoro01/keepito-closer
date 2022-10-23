@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Grid,
-  CardActionArea,
   CardActions,
   IconButton,
   Modal,
@@ -11,7 +10,6 @@ import {
 import Stack from "@mui/material/Stack";
 import Card from "@material-ui/core/Card";
 import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
 
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -93,7 +91,7 @@ export default function Menu() {
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     {course?.classes?.length}{" "}
-                    {course?.classes?.length === 1 ? "aula" : "aulas"}1e
+                    {course?.classes?.length === 1 ? "aula" : "aulas"}
                   </Typography>
                 </CardContent>
                 <CardActions>
