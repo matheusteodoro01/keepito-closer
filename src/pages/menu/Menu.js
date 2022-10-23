@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Grid,
   CardActionArea,
+  CardActions,
   IconButton,
   Modal,
   Box,
@@ -45,7 +46,7 @@ export default function Menu() {
 
   return (
     <>
-      <Grid container direction="column" alignItems="flex-end" m={2}>
+      <Grid container direction="column" alignItems="flex-end">
         <Modal open={showModal} onClose={() => setShowModal(false)}>
           <Box className={classesNames.boxModalCreateQuizForm}>
             <SaveCourse
@@ -58,31 +59,28 @@ export default function Menu() {
           </Box>
         </Modal>
         <Button
-        style={{margin:10}}
           variant="contained"
           color="success"
-          onClick={() => setShowModal(true)}
+          style={{ margin: 10 }}
+          onClick={() => {
+            setShowModal(true);
+            setCourseSelect({});
+          }}
         >
           Criar Curso
         </Button>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} w>
           {courses?.map((course) => (
-            <Grid item xs={12} sm={4} key={course.id}>
+            <Grid item  md={4}key={course.id}>
               <Card
                 style={{
-                  maxWidth: 345,
-                  maxHeight: 345,
                   boxShadow: "0 5px 8px 0 rgba(0, 0, 0, 0.3)",
                   backgroundColor: "#fafafa",
                 }}
               >
-                <CardActionArea
-                  component={RouterLink}
-                  to={`/app/course/details/${course.id}`}
-                ></CardActionArea>
                 <CardMedia
                   component="img"
-                  height="200"
+                  height="150"
                   image="https://escuelafullstack.com/web/image/slide.channel/18/image_512"
                   alt="green iguana"
                 />
@@ -94,26 +92,39 @@ export default function Menu() {
                     {course.description}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    {course?.classes.length}{" "}
-                    {course?.classes.length === 1 ? "aula" : "aulas"}{" "}
+                    {course?.classes?.length}{" "}
+                    {course?.classes?.length === 1 ? "aula" : "aulas"}1e
                   </Typography>
-                  <Stack
-                    direction="column"
-                    alignItems="flex-end"
-                    width="100%"
-                    spacing={10}
-                  >
-                    <IconButton
-                      size="small"
-                      onClick={() => {
-                        setCourseSelect(course);
-                        setShowModal(true);
-                      }}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                  </Stack>
                 </CardContent>
+                <CardActions>
+                  <Stack direction="row" width="100%">
+                    <Stack direction="row" width="100%">
+                      <Button
+                        variant="contained"
+                        color="info"
+                        component={Link}
+                        to={`/app/course/details/${course.id}`}
+                      >
+                        Acessar
+                      </Button>
+                    </Stack>
+                    <Stack
+                      direction="column"
+                      alignItems={"flex-end"}
+                      width="100%"
+                    >
+                      <IconButton
+                        size="small"
+                        onClick={() => {
+                          setCourseSelect(course);
+                          setShowModal(true);
+                        }}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                    </Stack>
+                  </Stack>
+                </CardActions>
               </Card>
             </Grid>
           ))}
