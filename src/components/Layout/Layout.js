@@ -25,7 +25,7 @@ import Typography from "../../pages/typography";
 import Notifications from "../../pages/notifications";
 import Maps from "../../pages/maps";
 import Tables from "../../pages/tables";
-import Courses from "../../pages/course";
+import Students from "../../pages/student";
 import CourseDetails from "../../pages/course/Details"
 import ClasseDetails from '../../pages/course/classes/details/Details'
 import QuizDetails from '../../pages/course/classes/quiz/details/Details'
@@ -65,7 +65,7 @@ function Layout(props) {
             <Route path="/app/typography" component={Typography} />
             <Route path="/app/menu" component={Menu} />
             <Route path="/app/tables" component={Tables} />
-            <Route path="/app/courses" component={Courses} />
+            <Route path="/app/students" component={Students} />
             <Route path="/app/course/details/:courseId" component={CourseDetails} />
             <Route path="/app/course/:courseId/classe/details/:classeId" component={ClasseDetails} />
             <Route path="/app/course/classe/quiz/details/:quizId" component={QuizDetails} />

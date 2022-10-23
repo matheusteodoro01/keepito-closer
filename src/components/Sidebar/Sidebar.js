@@ -38,7 +38,7 @@ const structure = [
     link: "/app/menu",
     icon: < TypographyIcon />,
   },
-  { id: -1, label: "Menu", link: "/app/courses", icon: < CoursesIcon /> },
+  { id: -1, label: "Seus Alunos", link: "/app/students", icon: < CoursesIcon /> },
   { id: 2, label: "Tables", link: "/app/tables", icon: < TableIcon /> },
   {
     id: 3,
