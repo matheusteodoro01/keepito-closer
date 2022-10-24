@@ -29,7 +29,12 @@ export default function SaveClass(props) {
     },
     updateClass = async (event) => {
       event.preventDefault();
-      const classe = { name, description, courseId: props?.courseId, classeId };
+      const classe = {
+        name,
+        description,
+        courseId: props?.courseId,
+        id: classeId,
+      };
       await api.put(`v1/classes/${classeId}`, classe);
       const classes = props.classes;
       const classesUpdate = classes.filter((classe) => classe.id !== classeId);
