@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { Grid, CardContent, CardActions, IconButton,  Modal, Box } from "@material-ui/core";
+import {
+  Grid,
+  CardContent,
+  CardActions,
+  IconButton,
+  Modal,
+  Box,
+} from "@material-ui/core";
 import { Link, useParams } from "react-router-dom";
-import classnames from "classnames";
+import Stack from "@mui/material/Stack";
 import Card from "@material-ui/core/Card";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
+import EditIcon from "@material-ui/icons/Edit";
 // styles
 import "react-toastify/dist/ReactToastify.css";
 import useStyles from "../../components/styles";
 
 // components
-import SaveClass from "../../components/class/Save"
+import SaveClass from "../../components/class/Save";
 
 import { Typography, Button } from "../../components/Wrappers/Wrappers";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -22,6 +30,7 @@ export default function DetailsCourse(props) {
 
   const [courseClasses, setCourseClasses] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [classeSelected, setClasseeSelected] = useState({});
   let { courseId } = useParams();
 
   async function getCourse() {
@@ -40,11 +49,12 @@ export default function DetailsCourse(props) {
 
   return (
     <>
-     <Modal open={showModal} onClose={() => setShowModal(false)}>
+      <Modal open={showModal} onClose={() => setShowModal(false)}>
         <Box className={classes.boxModalCreateQuizForm}>
           <SaveClass
             courseId={courseId}
             classes={courseClasses}
+            classeSelected={classeSelected}
             setCourseClasses={setCourseClasses}
             setShowModal={setShowModal}
           />
@@ -81,13 +91,13 @@ export default function DetailsCourse(props) {
               {course.description}
             </Typography>
             <Button
-                  variant="contained"
-                  color="primary"
-                  size="large"
-                  onClick={() => setShowModal(true)}
-                >
-                  Criar Aula
-                </Button>
+              variant="contained"
+              color="primary"
+              size="large"
+              onClick={() => setShowModal(true)}
+            >
+              Criar Aula
+            </Button>
 
             <CardActions disableSpacing>
               <IconButton aria-label="add to favorites">
@@ -114,15 +124,28 @@ export default function DetailsCourse(props) {
                   {classe.name}
                 </Typography>
                 <Typography>{classe.description}</Typography>
+                <Stack direction="row" alignItems={"flex-end"} width="100%">
                 <Button
                   variant="contained"
                   color="primary"
-                  size="small"
                   component={Link}
                   to={`/app/course/${courseId}/classe/details/${classe.id}`}
                 >
                   Acessar
                 </Button>
+
+                <Stack direction="column" alignItems={"flex-end"} width="100%">
+                  <IconButton
+                    size="small"
+                    onClick={() => {
+                      setClasseeSelected(classe);
+                      setShowModal(true);
+                    }}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                </Stack>
+                </Stack>
               </CardContent>
             </Card>
           </Grid>

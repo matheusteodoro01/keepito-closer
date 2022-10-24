@@ -11,21 +11,28 @@ import SubmitButton from "../../components/SubmitButton";
 
 export default function SaveCourse(props) {
   const style = useStyles(),
-    [courseId, setCourseId] = useState(props?.courseSelected?.id ?? props?.courseSelected?.courseId),
+    [courseId, setCourseId] = useState(props?.courseSelected?.id),
     [name, setName] = useState(props?.courseSelected?.name),
-    [description, setDescription] = useState(props?.courseSelected?.description),
+    [description, setDescription] = useState(
+      props?.courseSelected?.description,
+    ),
     createCourse = async (event) => {
       event.preventDefault();
-      const course = { name, description, courseId, creatorId: props?.userId };
-      await api.post("v1/courses", course);
+      const course = { name, description, creatorId: props?.userId };
+      const newCourse = await api.post("v1/courses", course);
       const courses = props.courses;
-      courses.push(course);
+      courses.push(newCourse.data);
       props.setCourses(courses);
       props.setShowModal(false);
     },
     updateCourse = async (event) => {
       event.preventDefault();
-      const course = { name, description, courseId, creatorId: props?.userId };
+      const course = {
+        name,
+        description,
+        id: courseId,
+        creatorId: props?.userId,
+      };
       await api.put(`v1/courses/${courseId}`, course);
       const courses = props.courses;
       const coursesUpdate = courses.filter((course) => course.id !== courseId);
@@ -43,7 +50,9 @@ export default function SaveCourse(props) {
       props.setCourses(coursesUpdate.sort(compare));
       props.setShowModal(false);
     };
-    useEffect(()=>{console.log("CURSO SELECIONADO",props.courseSelected)},[])
+  useEffect(() => {
+    console.log("CURSO SELECIONADO", props.courseSelected);
+  }, []);
 
   return (
     <FormControl className={style.form}>
@@ -67,7 +76,7 @@ export default function SaveCourse(props) {
         onChange={(e) => setDescription(e.target.value)}
       />
 
-      <SubmitButton subimit={courseId? updateCourse : createCourse} />
+      <SubmitButton subimit={courseId ? updateCourse : createCourse} />
     </FormControl>
   );
 }

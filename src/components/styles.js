@@ -57,7 +57,7 @@ export default makeStyles((theme) => ({
     "border-radius": "25px",
     padding: 6,
     "background-color": "rgba(255,255,255,0.87)",
-    "max-height": "90%",
+    "max-height": "100%",
     overflow: "hidden",
   },
   form: {
@@ -66,10 +66,11 @@ export default makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+    "border-radius": "25px",
     padding: theme.spacing(4),
 
     "& .MuiButtonBase-root": {
-      margin: theme.spacing(1),
+      margin: theme.spacing(2),
     },
     "& .MuiGrid-root": {
       margin: theme.spacing(1),

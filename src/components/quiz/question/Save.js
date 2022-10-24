@@ -17,7 +17,7 @@ import useStyles from "../../styles";
 
 // components
 import SaveAlternative from "./alternative/Save";
-import { Button } from "../../../components/Wrappers/Wrappers";
+import Button from "@mui/material/Button";
 
 export default function SaveQuestion(props) {
   var classesNames = useStyles();
@@ -147,36 +147,34 @@ export default function SaveQuestion(props) {
             </IconButton>
           </Stack>
         ))}
+        {questionId && (
+          <TextField
+            fullWidth
+            required
+            id="outlined-required"
+            label="Alternativa Correta"
+            name="alternative"
+            value={correctAlternative}
+            onChange={(e) => setCorrectAlternative(e.target.value)}
+          />
+        )}
+        <Stack key={alternative.id} direction="row" width="100%">
+          {questionId && (
+            <Button
+              variant="contained"
+              color="success"
+              size="medium"
+              onClick={() => {
+                setShowModal(true);
+              }}
+            >
+              Adicionar alternativa
+            </Button>
+          )}
 
-        <TextField
-          fullWidth
-          required
-          id="outlined-required"
-          label="Alternativa Correta"
-          name="alternative"
-          value={correctAlternative}
-          onChange={(e) => setCorrectAlternative(e.target.value)}
-        />
-        <Stack
-          key={alternative.id}
-          direction="row"
-          alignItems="center"
-          width="100%"
-        >
           <Button
             variant="contained"
             color="primary"
-            size="small"
-            onClick={() => {
-              setShowModal(true);
-            }}
-          >
-            Adicionar alternativa
-          </Button>
-
-          <Button
-            variant="contained"
-            color="secudary"
             size="large"
             onClick={() => (questionId ? updateQuestion() : createQuestion())}
           >
