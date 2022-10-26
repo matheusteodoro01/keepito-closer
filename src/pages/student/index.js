@@ -17,17 +17,21 @@ export default function Courses() {
   let classes = useStyles();
   const token = localStorage.getItem("keepitoAuthorization"),
     [userId, setUserId] = useState(undefined),
-    [courses, setCourses] = useState([]),
+    [users, setUsers] = useState([]),
     [selectionModel, setSelectionModel] = React.useState([]),
     loadCourses = (id) => {
       async function fetchData() {
-        await api.get(api.version + "courses/user/" + id).then((response) => {
-          setCourses(response.data);
+        await api.get(api.version + "users/course/" + id).then((response) => {
+          const courses = response.data;
+          const coursesData = courses.map((user) => ({
+            ...user,
+            courses: user.courses.map((course) => `${course.name}, `),
+          }));
+          setUsers(coursesData);
         });
       }
       fetchData();
     },
-
     datatableOptions = {
       filterType: "dropdown",
       download: false,
@@ -53,8 +57,16 @@ export default function Courses() {
         },
       },
       {
-        name: "description",
-        label: "Curso",
+        name: "email",
+        label: "Email",
+        options: {
+          filter: true,
+          sort: true,
+        },
+      },
+      {
+        name: "courses",
+        label: "Cursos",
         options: {
           filter: true,
           sort: true,
@@ -72,7 +84,7 @@ export default function Courses() {
     <>
       <Grid item xs={12}>
         <MUIDataTable
-          data={courses}
+          data={users}
           columns={dataTableColumns}
           options={datatableOptions}
         />
