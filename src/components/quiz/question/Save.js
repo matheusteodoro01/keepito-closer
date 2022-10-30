@@ -5,6 +5,9 @@ import {
   Modal,
   Box,
   IconButton,
+  RadioGroup,
+  Radio,
+  FormControlLabel,
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -75,8 +78,16 @@ export default function SaveQuestion(props) {
     try {
       const question = await api.get(`/v1/questions/${props?.question?.id}`);
       setTitle(question.data.title);
+
+      const alternatives = question.data.alternatives.map((alternative) => {
+        const checked = alternative.id == question.data.correctAlternative;
+        return {
+          ...alternative,
+          selected: checked,
+        };
+      });
       setCorrectAlternative(question.data.correctAlternative);
-      setAlternatives(question.data.alternatives);
+      setAlternatives(alternatives);
     } catch (error) {
       console.log(error);
     }
@@ -86,6 +97,19 @@ export default function SaveQuestion(props) {
     questionId && getQuestion();
   }, []);
 
+  const onInputChange = (e) => {
+    const correctAlternativeId = e.target.value;
+    const nexState = alternatives.map((alternative) => {
+      const checked = alternative.id == correctAlternativeId;
+      return {
+        ...alternative,
+        selected: checked,
+      };
+    });
+    setCorrectAlternative(correctAlternativeId);
+    setAlternatives(nexState);
+  };
+
   return (
     <>
       <Modal open={showModal} onClose={() => setShowModal(false)}>
@@ -93,11 +117,9 @@ export default function SaveQuestion(props) {
           <SaveAlternative
             setShowModal={setShowModal}
             setAlternatives={setAlternatives}
-            setCorrectAlternative={setCorrectAlternative}
             questionId={questionId}
             alternative={alternative}
             alternatives={alternatives}
-            correctAlternative={correctAlternative}
           />
         </Box>
       </Modal>
@@ -111,53 +133,48 @@ export default function SaveQuestion(props) {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        {alternatives?.map((alternative, index) => (
-          <Stack
-            key={alternative.id}
-            direction="row"
-            alignItems="center"
-            width="100%"
-          >
-            <TextField
-              InputProps={{
-                readOnly: true,
-              }}
-              fullWidth
-              id="outlined-required"
-              label={`Alternativa ${index + 1}`}
-              name="alternative"
-              value={alternative.description}
-              onChange={(e) => setAlternative(e.target.value)}
-            />
-            <IconButton
-              size="small"
-              onClick={() => {
-                setAlternative(alternative);
-                setShowModal(true);
-              }}
+        <RadioGroup>
+          {alternatives.map((alternative, index_alternative) => (
+            <Stack
+              key={alternative.id}
+              direction="row"
+              alignItems="center"
+              width="100%"
             >
-              <EditIcon />
-            </IconButton>
+              <FormControlLabel
+                value={alternative.description}
+                label={alternative.description}
+                control={
+                  <Radio
+                    color="primary"
+                    key={index_alternative}
+                    name={questionId}
+                    value={alternative.id}
+                    checked={!!alternative.selected}
+                    onChange={onInputChange}
+                  />
+                }
+              />
+              <IconButton
+                size="small"
+                onClick={() => {
+                  setAlternative(alternative);
+                  setShowModal(true);
+                }}
+              >
+                <EditIcon />
+              </IconButton>
 
-            <IconButton
-              size="small"
-              onClick={() => handleRemoveAlternative(alternative)}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </Stack>
-        ))}
-        {questionId && (
-          <TextField
-            fullWidth
-            required
-            id="outlined-required"
-            label="Alternativa Correta"
-            name="alternative"
-            value={correctAlternative}
-            onChange={(e) => setCorrectAlternative(e.target.value)}
-          />
-        )}
+              <IconButton
+                size="small"
+                onClick={() => handleRemoveAlternative(alternative)}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Stack>
+          ))}
+        </RadioGroup>
+
         <Stack key={alternative.id} direction="row" width="100%">
           {questionId && (
             <Button

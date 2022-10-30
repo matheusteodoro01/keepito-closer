@@ -14,9 +14,6 @@ export default function SaveAlternative(props) {
     [questionId, setQuestionId] = useState(props?.questionId),
     [description, setDescription] = useState(props.alternative.description),
     [alternativeId, setAlternativeId] = useState(props?.alternative.id),
-    [correctAlternative, setCorrectAlternative] = useState(
-      props?.correctAlternative,
-    ),
     createAlternative = async (event) => {
       event.preventDefault();
       const alternative = { description, questionId };
@@ -61,15 +58,6 @@ export default function SaveAlternative(props) {
         name="description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-      />
-      <TextField
-        fullWidth
-        required
-        id="outlined-required"
-        label="Alternativa Correta?"
-        name="alternative"
-        value={correctAlternative}
-        onChange={(e) => setCorrectAlternative(e.target.value)}
       />
       <SubmitButton
         subimit={alternativeId ? updateAlternative : createAlternative}
