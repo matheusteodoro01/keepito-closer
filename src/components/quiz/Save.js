@@ -14,13 +14,12 @@ import SubmitButton from "../SubmitButton";
 export default function SaveQuiz(props) {
   let history = useHistory();
   const style = useStyles(),
-    [name, setName] = useState(""),
-    [description, setDescription] = useState(""),
-    [title, setTitle] = useState(""),
-    [score, setScore] = useState(""),
-    [theme, setTheme] = useState(""),
-    [alternative, setAlternative] = useState(""),
-    createQuestion = async (event) => {
+    [quizId, setQuizId] = useState(props?.quizSelected?.id),
+    [name, setName] = useState(props?.quizSelected?.name),
+    [description, setDescription] = useState(props?.quizSelected?.description),
+    [score, setScore] = useState(props?.quizSelected?.score),
+    [theme, setTheme] = useState(props?.quizSelected?.theme),
+    createQuiz = async (event) => {
       event.preventDefault();
       const quiz = await api.post("v1/quizzes", {
         name,
@@ -30,12 +29,39 @@ export default function SaveQuiz(props) {
         classId: props.classId,
       });
       const quizzes = props.quizzes;
-      console.log(quizzes);
       quizzes.push(quiz.data);
       props.setQuizzes(quizzes);
       props.setShowModal(false);
       history.push(`/app/course/classe/quiz/details/${quiz.data.id}`);
+    },
+
+    updateQuiz = async (event) => {
+      const quiz = await api.put(`v1/quizzes/${quizId}`, {
+        id: quizId,
+        name,
+        description,
+        theme,
+        score,
+        classId: props.classId,
+      });
+      const quizzes = props.quizzes;
+      const quizzesUpdate = quizzes.filter(
+        (quiz) => quiz.id !== quizId,
+      );
+      quizzesUpdate.push(quiz.data);
+      const compare = (a, b) => {
+        if (a.id < b.id) {
+          return -1;
+        }
+        if (a.id > b.id) {
+          return 1;
+        }
+        return 0;
+      };
+      props.setQuizzes(quizzesUpdate.sort(compare));
+      props.setShowModal(false);
     };
+
 
   return (
     <FormControl className={style.form}>
@@ -82,7 +108,7 @@ export default function SaveQuiz(props) {
         />
       </Stack>
 
-      <SubmitButton subimit={createQuestion}  />
+      <SubmitButton subimit={quizId ? updateQuiz : createQuiz} />
     </FormControl>
   );
 }
