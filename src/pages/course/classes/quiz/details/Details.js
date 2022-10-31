@@ -4,18 +4,20 @@ import {
   CardContent,
   Modal,
   Box,
+  IconButton,
+  Typography,
+  Button,
 } from "@material-ui/core";
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Card from "@material-ui/core/Card";
+import Stack from "@mui/material/Stack";
+import EditIcon from "@material-ui/icons/Edit";
+
 // styles
 import "react-toastify/dist/ReactToastify.css";
 import useStyles from "../../../../../components/styles";
 
 // components
-import {
-  Typography,
-  Button,
-} from "../../../../../components/Wrappers/Wrappers";
 import SaveQuestion from "../../../../../../src/components/quiz/question/Save";
 import CardMedia from "@material-ui/core/CardMedia";
 import api from "../../../../../services/api";
@@ -23,12 +25,10 @@ import { decoder } from "../../../../../services/decoder";
 
 export default function DetailsQuiz(props) {
   var classesNames = useStyles();
-  const token = localStorage.getItem("keepitoAuthorization");
   const [showModal, setShowModal] = useState(false);
   const [quiz, setQuiz] = useState({});
   const [question, setQuestion] = useState({});
   const [quizQuestions, setQuizQuestions] = useState([]);
-  const { id } = decoder(token);
   let { quizId } = useParams();
 
   async function getQuiz() {
@@ -112,8 +112,6 @@ export default function DetailsQuiz(props) {
             >
               Adicionar Questão
             </Button>
-
-
           </CardContent>
         </Grid>
       </Grid>
@@ -127,24 +125,27 @@ export default function DetailsQuiz(props) {
           <Grid item sm={12} md={12} lg={12} key={question.id}>
             <Card>
               <CardContent>
-                <Typography variant="h4" component="p">
-                  {index + 1} - {question.title}
-                </Typography>
-                <Typography>
-                  {question?.alternatives?.length}{" "}
-                  {question?.alternatives?.length === 1 ? "alternativa" : "alternativas"}
-                </Typography>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="small"
-                  onClick={() => {
-                    setShowModal(true);
-                    setQuestion(question);
-                  }}
-                >
-                  Editar Questão
-                </Button>
+                <Stack direction="row" alignItems={"flex-end"} width="100%">
+                  <Typography variant="h4" component="p">
+                    {index + 1} - {question.title}
+                  </Typography>
+
+                  <Stack
+                    direction="column"
+                    alignItems={"flex-end"}
+                    width="100%"
+                  >
+                    <IconButton
+                      size="small"
+                      onClick={() => {
+                        setQuestion(question);
+                        setShowModal(true);
+                      }}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                  </Stack>
+                </Stack>
               </CardContent>
             </Card>
           </Grid>
