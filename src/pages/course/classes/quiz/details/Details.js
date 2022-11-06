@@ -21,11 +21,12 @@ import useStyles from "../../../../../components/styles";
 import SaveQuestion from "../../../../../../src/components/quiz/question/Save";
 import CardMedia from "@material-ui/core/CardMedia";
 import api from "../../../../../services/api";
-import { decoder } from "../../../../../services/decoder";
+import ListAnswers from "../../../../../components/answers";
 
 export default function DetailsQuiz(props) {
   var classesNames = useStyles();
   const [showModal, setShowModal] = useState(false);
+  const [showModalListAnswers, setShowModalListAnswers] = useState(false);
   const [quiz, setQuiz] = useState({});
   const [question, setQuestion] = useState({});
   const [quizQuestions, setQuizQuestions] = useState([]);
@@ -58,6 +59,13 @@ export default function DetailsQuiz(props) {
 
   return (
     <>
+      <Modal open={showModalListAnswers} onClose={() => setShowModalListAnswers(false)}>
+        <Box className={classesNames.boxModalCreateQuizForm}>
+          <ListAnswers
+            quizId={quizId}
+          />
+        </Box>
+      </Modal>
       <Modal open={showModal} onClose={() => setShowModal(false)}>
         <Box className={classesNames.boxModalCreateQuizForm}>
           <SaveQuestion
@@ -101,6 +109,7 @@ export default function DetailsQuiz(props) {
               {quiz.description}
             </Typography>
 
+            <Stack direction="row" spacing={1} width="100%">
             <Button
               variant="contained"
               color="primary"
@@ -112,6 +121,18 @@ export default function DetailsQuiz(props) {
             >
               Adicionar Questão
             </Button>
+
+              <Button
+                variant="contained"
+                color="secondary"
+                size="large"
+                onClick={() => setShowModalListAnswers(true)}
+              >
+                Ver Repostas
+              </Button>
+            </Stack>
+
+           
           </CardContent>
         </Grid>
       </Grid>
