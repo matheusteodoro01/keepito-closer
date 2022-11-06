@@ -6,6 +6,8 @@ import {
   IconButton,
   Modal,
   Box,
+  Button,
+  Typography,
 } from "@material-ui/core";
 import { Link, useParams } from "react-router-dom";
 import Stack from "@mui/material/Stack";
@@ -19,17 +21,17 @@ import useStyles from "../../components/styles";
 
 // components
 import SaveClass from "../../components/class/Save";
-
-import { Typography, Button } from "../../components/Wrappers/Wrappers";
 import CardMedia from "@material-ui/core/CardMedia";
 import api from "../../services/api";
+import ListStudents from "../../components/students";
 
 export default function DetailsCourse(props) {
   var classes = useStyles();
-  const [course, setCourse] = useState([]);
+  const [course, setCourse] = useState({});
 
   const [courseClasses, setCourseClasses] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [showModalListStudents, setShowModalListStudents] = useState(false);
   const [classeSelected, setClasseeSelected] = useState({});
   let { courseId } = useParams();
 
@@ -49,6 +51,15 @@ export default function DetailsCourse(props) {
 
   return (
     <>
+      <Modal open={showModalListStudents} onClose={() => setShowModalListStudents(false)}>
+        <Box className={classes.boxModalCreateQuizForm}>
+          <ListStudents
+            creatorId={course.creatorId}
+            courseId={courseId}
+          />
+        </Box>
+      </Modal>
+
       <Modal open={showModal} onClose={() => setShowModal(false)}>
         <Box className={classes.boxModalCreateQuizForm}>
           <SaveClass
@@ -83,30 +94,29 @@ export default function DetailsCourse(props) {
             <Typography gutterBottom variant="h1" component="div">
               {course.name}
             </Typography>
-            <Typography variant="body1" color="text.primary">
-              {courseClasses.length} aula(s) {2} aluno(s)
-            </Typography>
 
             <Typography variant="body1" color="text.secondary">
               {course.description}
             </Typography>
-            <Button
-              variant="contained"
-              color="primary"
-              size="large"
-              onClick={() => setShowModal(true)}
-            >
-              Criar Aula
-            </Button>
+            <Stack direction="row" spacing={1} width="100%">
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                onClick={() => setShowModal(true)}
+              >
+                Criar Aula
+              </Button>
 
-            <CardActions disableSpacing>
-              <IconButton aria-label="add to favorites">
-                <FavoriteIcon />
-              </IconButton>
-              <IconButton aria-label="share">
-                <ShareIcon />
-              </IconButton>
-            </CardActions>
+              <Button
+                variant="contained"
+                color="secondary"
+                size="large"
+                onClick={() => setShowModalListStudents(true)}
+              >
+                Ver Alunos
+              </Button>
+            </Stack>
           </CardContent>
         </Grid>
       </Grid>
@@ -125,26 +135,30 @@ export default function DetailsCourse(props) {
                 </Typography>
                 <Typography>{classe.description}</Typography>
                 <Stack direction="row" alignItems={"flex-end"} width="100%">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  component={Link}
-                  to={`/app/course/${courseId}/classe/details/${classe.id}`}
-                >
-                  Acessar
-                </Button>
-
-                <Stack direction="column" alignItems={"flex-end"} width="100%">
-                  <IconButton
-                    size="small"
-                    onClick={() => {
-                      setClasseeSelected(classe);
-                      setShowModal(true);
-                    }}
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    component={Link}
+                    to={`/app/course/${courseId}/classe/details/${classe.id}`}
                   >
-                    <EditIcon />
-                  </IconButton>
-                </Stack>
+                    Acessar
+                  </Button>
+
+                  <Stack
+                    direction="column"
+                    alignItems={"flex-end"}
+                    width="100%"
+                  >
+                    <IconButton
+                      size="small"
+                      onClick={() => {
+                        setClasseeSelected(classe);
+                        setShowModal(true);
+                      }}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                  </Stack>
                 </Stack>
               </CardContent>
             </Card>
